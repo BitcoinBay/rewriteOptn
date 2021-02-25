@@ -16,6 +16,7 @@ import ViewSeedScreen from "../screens/ViewSeedScreen";
 import ContactUsScreen from "../screens/ContactUsScreen";
 import FAQScreen from "../screens/FAQScreen";
 import PrivacyNoticeScreen from "../screens/PrivacyNoticeScreen";
+import SelectCurrencyScreen from "../screens/SelectCurrencyScreen";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -51,6 +52,10 @@ const MenuStackScreens = () => {
       <MenuStack.Screen 
         name="TermsOfUseScreen"
         component={TermsOfUseScreen}
+      />
+      <MenuStack.Screen 
+        name="SelectCurrencyScreen"
+        component={SelectCurrencyScreen}
       />
       <MenuStack.Screen 
         name="LogoutScreen"

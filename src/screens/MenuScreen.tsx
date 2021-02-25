@@ -139,9 +139,9 @@ const MenuScreen = ({
         />
         <OptionsRow
           text="Currency"
-          // pressFn={() => {
-          //   navigation.navigate("SelectCurrencyScreen");
-          // }}
+          pressFn={() => {
+            navigation.navigate("SelectCurrencyScreen");
+          }}
           label={`${currencySymbolMap[fiatCurrency]} ${fiatCurrency}`}
         />
         <OptionsRow
@@ -195,4 +195,4 @@ const MenuScreen = ({
   );
 }
 
-export default MenuScreen;
+export default connector(MenuScreen);

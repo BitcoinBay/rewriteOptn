@@ -12,11 +12,20 @@ import {
 } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import styled, { css } from "styled-components";
+import QRCode from 'react-native-qrcode-svg';
+
+import {
+  getAddressSelector,
+  getAddressSlpSelector
+} from "../data/accounts/selectors";
+import { addressToSlp } from "../utils/account-utils";
 
 import { FullState } from "../data/store";
 
 import { T, H1, H2, Spacer, Button } from "../atoms";
 import OPTNWelcome1 from "../assets/images/OPTNWelcome1.png";
+import BitcoinCashImage from "../assets/images/icon.png";
+import SLPImage from "../assets/images/slp-logo.png";
 
 const ToggleRow = styled(View)`
   justify-content: center;
@@ -106,7 +115,10 @@ const QROverlay = styled(View)`
 
 type PropsFromParent = StackNavigationProp & {};
 
-const mapStateToProps = (state: FullState) => ({});
+const mapStateToProps = (state: FullState) => ({
+  address: getAddressSelector(state),
+  addressSlp: getAddressSlpSelector(state)
+});
 
 const mapDispatchToProps = {};
 
@@ -115,10 +127,26 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromParent & PropsFromRedux;
 
-const ReceiveScreen = ({}: Props) => {
+const ReceiveScreen = ({
+  address, addressSlp
+}: Props) => {
   const scrollRef = useRef<ScrollView>(null);
   const [showing, setShowing] = useState("BCH");
   const [copyNotify, setCopyNotify] = useState("");
+
+  const [simpleLedgerAddr, setSimpleLedgerAddr] = useState(addressSlp);
+
+  const QRSize = Dimensions.get("window").width * 0.65;
+
+  useEffect(() => {
+    const convertAddress = async () => {
+      const convertedAddress = await addressToSlp(addressSlp);
+      setSimpleLedgerAddr(convertedAddress);
+    };
+
+    if (!addressSlp) return;
+    convertAddress();
+  }, [addressSlp]);
 
   return(
     <SafeAreaView>
@@ -137,7 +165,6 @@ const ReceiveScreen = ({}: Props) => {
             alignItems: "center"
           }}
         />
-        <Spacer />
         <T center>
           Scan a public key below to receive funds. Tap on a QR code to copy the address.
         </T>
@@ -191,9 +218,27 @@ const ReceiveScreen = ({}: Props) => {
               }}
             >
               <T size="xsmall" center>
-                bitcoincash:
+                {address ? address : " "}
               </T>
-              <T center>BCH Address Conditional Rendering & QR Code</T>
+              <Spacer tiny />
+              {address ? (
+                <QRHolder>
+                  <QRCode
+                    value={address}
+                    size={QRSize}
+                    color="black"
+                    backgroundColor="white"
+                  />
+                  <TypeOverlay>
+                    <TypeImage source={BitcoinCashImage} size={QRSize} />
+                  </TypeOverlay>
+                  {showing !== "BCH" && (
+                    <QROverlay>
+                      <T>Tap to show</T>
+                    </QROverlay>
+                  )}
+                </QRHolder>
+              ) : null}
             </TouchableOpacity>
             <Spacer tiny />
             <T center size="small" type="primary">
@@ -208,15 +253,33 @@ const ReceiveScreen = ({}: Props) => {
             <TouchableOpacity
               onPress={() => {
                 if (showing === "SLP") {
-                  Clipboard.setString(address);
+                  Clipboard.setString(simpleLedgerAddr);
                   setCopyNotify("SLP");
                 }
               }}
             >
               <T size="xsmall" center>
-                simpleledger:
+                {simpleLedgerAddr ? simpleLedgerAddr : " "}
               </T>
-              <T center>SLP Address Conditional Rendering & QR Code</T>
+              <Spacer tiny />
+              {simpleLedgerAddr ? (
+                <QRHolder>
+                  <QRCode
+                    value={simpleLedgerAddr}
+                    size={QRSize}
+                    color="black"
+                    backgroundColor="white"
+                  />
+                  <TypeOverlay>
+                    <TypeImage source={SLPImage} size={QRSize} />
+                  </TypeOverlay>
+                  {showing !== "SLP" && (
+                    <QROverlay>
+                      <T>Tap to show</T>
+                    </QROverlay>
+                  )}
+                </QRHolder>
+              ) : null}
             </TouchableOpacity>
             <Spacer tiny />
             <T center size="small" type="primary">
@@ -226,7 +289,7 @@ const ReceiveScreen = ({}: Props) => {
         )}
         { showing === "P2SH" && (
           <>
-            <H2 center>Pay-to-Script-Hash (BCH)</H2>
+            <H2 center>Pay-to-Script-Hash (P2SH)</H2>
             <Spacer tiny />
             <TouchableOpacity
               onPress={() => {
@@ -239,6 +302,10 @@ const ReceiveScreen = ({}: Props) => {
               <T size="xsmall" center>
                 bitcoincash:
               </T>
+              <T size="xsmall" center>
+                {address ? address.split(":")[1] : " "}
+              </T>
+              <Spacer tiny />
               <T center>P2SH Address Conditional Rendering & QR Code</T>
             </TouchableOpacity>
             <Spacer tiny />

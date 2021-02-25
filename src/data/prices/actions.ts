@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 
-import { CurrencyCode } from "../../utils/currency-utils";
+import { CurrencyCode, currencyDecimalMap } from "../../utils/currency-utils";
 
 import {
   UPDATE_BCH_SPOT_PRICE_START,
@@ -10,6 +10,8 @@ import {
   SET_FIAT_CURRENCY
 } from "./constants";
 import { FullState } from "../store";
+import { bchjs } from "../../utils/bch-js-utils";
+import { currencyOptions } from "../../utils/currency-utils";
 
 const setFiatCurrency = (currencyCode: string) => ({
   type: SET_FIAT_CURRENCY,
@@ -53,16 +55,17 @@ const updateSpotPrice = (currencyCode: CurrencyCode) => {
   ) => {
     dispatch(updateSpotPriceStart());
     try {
-      // Temporarily Setting Rate to 400
-      const rate = 400;
-
-      // API always returns as if currency has 2 decimals, even if it has none such as the JPY
-      const decimalAdjustedRate = rate / Math.pow(10, 2);
       const now = +new Date();
-      // const decimalAdjustedRate =
-      //   rate / Math.pow(10, currencyDecimalMap[currencyCode]);
+      const rates = await bchjs.Price.rates();
+      let whitelistRates = {};
+      currencyOptions.forEach(i => {
+        const roundingPrice = parseInt(rates[i]).toFixed(currencyDecimalMap[i]);
+        whitelistRates[i] = roundingPrice;
+      });
 
-      dispatch(updateSpotPriceSuccess(currencyCode, decimalAdjustedRate, now));
+      for (let key in whitelistRates) {
+        dispatch(updateSpotPriceSuccess(key, whitelistRates[key], now));
+      }
     } catch {
       const now = +new Date();
       dispatch(updateSpotPriceFail(currencyCode, now));

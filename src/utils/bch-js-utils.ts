@@ -1,5 +1,8 @@
 import BCHJS from "@psf/bch-js";
 
+const BCHN_MAINNET = 'https://bchn.fullstack.cash/v4/'
+const TESTNET3 = 'https://testnet3.fullstack.cash/v4/'
+
 const bchjs = new BCHJS({
   //  restURL: "https://bchn.fullstack.cash/v3/"
   //  apiToken:

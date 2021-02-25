@@ -21,6 +21,7 @@ export interface Account {
   mnemonic: string;
   accountIndex: number;
   seedViewed?: boolean;
+  network?: string;
 }
 
 export type State = {
