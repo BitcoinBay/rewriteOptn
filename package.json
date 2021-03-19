@@ -86,7 +86,8 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "testTimeout": 12000000
   },
   "react-native": {
     "crypto": "react-native-crypto",

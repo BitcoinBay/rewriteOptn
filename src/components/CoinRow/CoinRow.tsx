@@ -33,9 +33,9 @@ const ArrowArea = styled(View)`
   justify-content: center;
 `;
 const IconImage = styled(Image)`
-  width: 36;
-  height: 36;
-  border-radius: 18;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
   overflow: hidden;
 `;
 

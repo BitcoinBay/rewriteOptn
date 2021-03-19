@@ -57,7 +57,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
         />
         <Spacer small />
         <Button
-          onPress={() => navigation.navigate("AuthLoadingScreen")}
+          onPress={() => navigation.navigate("RestoreWalletScreen")}
           text="Restore Wallet"
         />
       </View>

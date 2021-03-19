@@ -1,4 +1,4 @@
-import { v5 as uuidv5 } from 'uuid';
+import { chunk } from "lodash";
 
 import {
   UPDATE_UTXO_START,
@@ -11,21 +11,25 @@ import { activeAccountIdSelector } from "../accounts/selectors";
 
 import { FullState } from "../store";
 
+import {
+  getTokenMetadata,
+  getAllSLPUtxo,
+  getTransactionDetails,
+  getAddressUtxos
+} from "../../utils/transaction-utils";
+
 import { bchjs } from "../../utils/bch-js-utils";
 
-// Generated from `uuid` cli command
-const BADGER_UUID_NAMESPACE = "9fcd327c-41df-412f-ba45-3cc90970e680";
 
 const updateUtxoStart = () => ({
   type: UPDATE_UTXO_START,
   payload: null
 });
 
-const updateUtxoSuccess = (utxos: UTXO[], address: string) => ({
+const updateUtxoSuccess = (utxos: any[]) => ({
   type: UPDATE_UTXO_SUCCESS,
   payload: {
-    utxos,
-    address
+    utxos
   }
 });
 
@@ -34,11 +38,45 @@ const updateUtxoFail = () => ({
   payload: null
 });
 
-// Simple unique ID for each utxo
-const computeUtxoId = (utxo: UTXO) =>
-  uuidv5(`${utxo.txid}_${utxo.vout}`, BADGER_UUID_NAMESPACE);
+// const refreshUtxos = async (address: string) => {
+//   // Get all UTXO for account
+//   const utxoSet = await getAddressUtxos(address);
+//   const bchUtxos: UTXO[] = utxoSet.bchUtxos;
+//   const nullUtxos: UTXO[] = utxoSet.nullUtxos;
+//   const slpMintUtxos: UTXO[] = utxoSet.type1Utxos.mintBatons
+//   const slpTokenUtxos: UTXO[] = utxoSet.type1Utxos.tokens;
+//   const nftMintUtxos: UTXO[] = utxoSet.slpUtxos.nft.groupMintBatons;
+//   const nftGroupUtxos: UTXO[] = utxoSet.slpUtxos.nft.groupTokens;
+//   const nftTokenUtxos: UTXO[] = utxoSet.slpUtxos.nft.tokens;
+
+//   const allUtxosWithId = allUtxos.map(utxo => ({
+//     ...utxo,
+//     _id: computeUtxoId(utxo),
+//     address: address,
+//   }));
+
+//   return allUtxosWithId;
+// }
+
+const updateUtxos = (address: string, addressSlp: string) => {
+  return async (dispatch: Function, getState: Function) => {
+    if (!address || !addressSlp) {
+      return;
+    }
+
+    dispatch(updateUtxoStart());
+    const state: FullState = getState();
+    const utxosUpdatedFull = await getAddressUtxos([address, addressSlp]);
+
+    dispatch(
+      updateUtxoSuccess([...utxosUpdatedFull])
+    );
+  }
+}
 
 export { 
+  updateUtxos,
+  // refreshUtxos,
   updateUtxoStart, 
   updateUtxoSuccess, 
   updateUtxoFail 

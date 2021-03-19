@@ -11,10 +11,6 @@ export type TokenData = {
   symbol: string;
   name: string;
   decimals: number;
-  protocol: "slp";
-  protocolData?: {
-    baton: boolean;
-  };
 };
 
 export type State = {

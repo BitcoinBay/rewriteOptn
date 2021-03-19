@@ -56,18 +56,18 @@ const IconArea = styled(View)`
 `;
 
 const EmptyIcon = styled(View)`
-  width: 36;
-  height: 36;
-  border-radius: 18;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
   overflow: hidden;
   background-color: ${props => props.theme.fg700};
   border: 2px solid ${props => props.theme.primary500};
 `;
 
 const IconImage = styled(Image)`
-  width: 36;
-  height: 36;
-  border-radius: 18;
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
   overflow: hidden;
 `;
 

@@ -14,13 +14,13 @@ import accountsReducer, {
   initialState as initialAccountState
 } from "./accounts/reducer";
 
-import pricesReducer, {
-  State as StatePrices,
-  initialState as initialPricesState
-} from "./prices/reducer";
+import transactionsReducer, {
+  State as StateTransactions,
+  initialState as initialTransactionsState
+} from "./transactions/reducer";
 
 import utxosReducer, {
-  State as StateUTXOS,
+  State as StateUTXOs,
   initialState as initialUTXOSState
 } from "./utxos/reducer";
 
@@ -28,6 +28,11 @@ import tokensReducer, {
   State as StateTokens,
   initialState as initialTokensState
 } from "./tokens/reducer";
+
+import pricesReducer, {
+  State as StatePrices,
+  initialState as initialPricesState
+} from "./prices/reducer";
 
 import settingsReducer, {
   SettingsState as StateSettings,
@@ -37,8 +42,9 @@ import settingsReducer, {
 export type FullState = {
   accounts: StateAccount;
   prices: StatePrices;
-  utxos: StateUTXOs;
   tokens: StateTokens;
+  transactions: StateTransactions;
+  utxos: StateUTXOs;
   settings: StateSettings;
   _persist?: PersistState;
 };
@@ -47,6 +53,7 @@ const initialState: FullState = {
   accounts: initialAccountState,
   prices: initialPricesState,
   tokens: initialTokensState,
+  transactions: initialTransactionsState,
   settings: initialSettingsState,
   utxos: initialUTXOSState,
 };
@@ -55,7 +62,7 @@ const initialState: FullState = {
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["utxos", "tokens", "settings"]
+  whitelist: ["utxos", "tokens", "transactions", "settings"]
 };
 
 // keypairs are re-computed each time the app launches, cannot persist complex objects easily.
@@ -75,6 +82,7 @@ const rootReducer = combineReducers({
   accounts: persistReducer(accountsPersistConfig, accountsReducer),
   prices: persistReducer(pricesPersistConfig, pricesReducer),
   tokens: tokensReducer,
+  transactions: transactionsReducer,
   utxos: utxosReducer,
   settings: settingsReducer,
 });
