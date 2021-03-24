@@ -211,6 +211,8 @@ const addUtxos = (
     updating: false
   };
 
+  console.log(nextState)
+
   return nextState;
 };
 
