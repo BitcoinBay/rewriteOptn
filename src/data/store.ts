@@ -39,6 +39,11 @@ import settingsReducer, {
   initialState as initialSettingsState
 } from "./settings/reducer";
 
+import networksReducer, {
+  State as StateNetworks,
+  initialState as initialNetworksState
+} from "./networks/reducer";
+
 export type FullState = {
   accounts: StateAccount;
   prices: StatePrices;
@@ -46,6 +51,7 @@ export type FullState = {
   transactions: StateTransactions;
   utxos: StateUTXOs;
   settings: StateSettings;
+  networks: StateNetworks;
   _persist?: PersistState;
 };
 
@@ -54,15 +60,17 @@ const initialState: FullState = {
   prices: initialPricesState,
   tokens: initialTokensState,
   transactions: initialTransactionsState,
-  settings: initialSettingsState,
   utxos: initialUTXOSState,
+  settings: initialSettingsState,
+  networks: initialNetworksState,
 };
 
 // TODO - Setup encryption on certain parts of the redux state
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["utxos", "tokens", "transactions", "settings"]
+  whitelist: ["utxos", "tokens", "transactions", "settings"],
+  timeout: 0,
 };
 
 // keypairs are re-computed each time the app launches, cannot persist complex objects easily.
@@ -85,6 +93,7 @@ const rootReducer = combineReducers({
   transactions: transactionsReducer,
   utxos: utxosReducer,
   settings: settingsReducer,
+  networks: networksReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

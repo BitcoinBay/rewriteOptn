@@ -211,8 +211,6 @@ const addUtxos = (
     updating: false
   };
 
-  console.log("utxos::reducer::addUtxos", nextState)
-
   return nextState;
 };
 
