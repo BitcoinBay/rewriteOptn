@@ -31,7 +31,7 @@ const StyledTextInput = styled(TextInput)`
 
 const ErrorContainer = styled(View)`
   border-color: ${props => props.theme.danger500};
-  border-width: ${StyleSheet.hairlineWidth};
+  border-width: ${StyleSheet.hairlineWidth}px;
   border-radius: 4px;
   padding: 8px;
 `;

@@ -48,9 +48,15 @@ const AuthLoadingScreen = ({
   useEffect(() => {
     if (mnemonic) {
       getAccount(mnemonic);
-      navigation.navigate("MainAppStack");
+      navigation.navigate("MainAppStack", {
+        screen: 'Home', params: {
+            screen: 'HomeScreen'
+        }
+      });
     } else {
-      navigation.navigate("AuthStack");
+      navigation.navigate("AuthStack", {
+        screen: 'WelcomeScreen'
+      });
     }
   }, [navigation, mnemonic, getAccount]);
 

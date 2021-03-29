@@ -51,7 +51,7 @@ const HASH_UUID_NAMESPACE = "9fcd327c-41df-412f-ba45-3cc90970e680";
 
 const BackupNotice = styled(TouchableOpacity)`
   border-color: ${props => props.theme.accent500};
-  border-width: ${StyleSheet.hairlineWidth};
+  border-width: ${StyleSheet.hairlineWidth}px;
   border-radius: 4px;
   padding: 8px;
   background-color: ${props => props.theme.accent900};

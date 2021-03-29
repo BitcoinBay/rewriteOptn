@@ -133,21 +133,33 @@ const MenuScreen = ({
         <OptionsRow
           text="View Seed Phrase"
           pressFn={() => {
-            navigation.navigate("ViewSeedScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "ViewSeedScreen"
+              }
+            });
           }}
           hasNotification={!seedViewed}
         />
         <OptionsRow
           text="Currency"
           pressFn={() => {
-            navigation.navigate("SelectCurrencyScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "SelectCurrencyScreen"
+              }
+            });
           }}
           label={`${currencySymbolMap[fiatCurrency]} ${fiatCurrency}`}
         />
         <OptionsRow
           text="Frequently Asked Questions - FAQ"
           pressFn={() => {
-            navigation.navigate("FAQScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "FAQScreen"
+              }
+            });
           }}
         />
         <OptionsRow
@@ -160,27 +172,43 @@ const MenuScreen = ({
           text="Terms of Use"
           muted
           pressFn={() => {
-            navigation.navigate("TermsOfUseScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "TermsOfUseScreen"
+              }
+            });
           }}
         />
         <OptionsRow
           text="Privacy Policy"
           muted
           pressFn={() => {
-            navigation.navigate("PrivacyNoticeScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "PrivacyNoticeScreen"
+              }
+            });
           }}
         />
         <OptionsRow
           text="Contact Us"
           muted
           pressFn={() => {
-            navigation.navigate("ContactUsScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "ContactUsScreen"
+              }
+            });
           }}
         />
         <OptionsRow
           text="Logout"
           pressFn={() => {
-            navigation.navigate("LogoutScreen");
+            navigation.navigate("MainAppStack", {
+              screen: "Menu", params: {
+                  screen: "LogoutScreen"
+              }
+            });
           }}
         />
         <Spacer fill />

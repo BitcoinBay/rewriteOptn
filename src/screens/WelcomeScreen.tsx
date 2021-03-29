@@ -52,12 +52,16 @@ const WelcomeScreen = ({ navigation }: Props) => {
         }}
       >
         <Button
-          onPress={() => navigation.navigate("CreateWalletScreen")}
+          onPress={() => navigation.navigate("AuthStack", {
+            screen: "CreateWalletScreen"
+          })}
           text="New Wallet"
         />
         <Spacer small />
         <Button
-          onPress={() => navigation.navigate("RestoreWalletScreen")}
+          onPress={() => navigation.navigate("AuthStack", {
+            screen: "RestoreWalletScreen"
+          })}
           text="Restore Wallet"
         />
       </View>
