@@ -1,4 +1,5 @@
 import { bchjs } from "./bch-js-utils";
+import { getStore } from "../data/store";
 
 const generateMnemonic = () => {
   const mnemonic = bchjs.Mnemonic.generate(128);
@@ -15,8 +16,11 @@ const deriveAccount = async (
     throw new Error("Mnemonic required to derive account"); 
   }
 
+  const { store } = getStore();
+  const network = store.getState().networks.currentNetwork;
+
   const seed = await bchjs.Mnemonic.toSeed(mnemonic);
-  const hdWallet = bchjs.HDNode.fromSeed(seed, "mainnet");
+  const hdWallet = bchjs.HDNode.fromSeed(seed, network);
 
   const rootNode = bchjs.HDNode.derivePath(hdWallet, hdPathString);
   const child = bchjs.HDNode.derivePath(
@@ -25,7 +29,6 @@ const deriveAccount = async (
   );
   const keypair = bchjs.HDNode.toKeyPair(child);
   const address = bchjs.ECPair.toCashAddress(keypair);
-  //  console.log("account utils address", address);
 
   return {
     mnemonic,
