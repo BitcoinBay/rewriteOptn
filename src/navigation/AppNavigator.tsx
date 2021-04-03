@@ -8,6 +8,7 @@ import { navigationRef } from './NavigationService';
 import AuthLoadingScreen from "./AuthLoadingScreen";
 import AuthStack from "./AuthStack";
 import MainAppStack from "./MainAppStack";
+import SelectNetworkScreen from "../screens/SelectNetworkScreen"
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,10 @@ const AppNavigator = () => {
         <Stack.Screen 
           name="AuthLoadingScreen" 
           component={AuthLoadingScreen}
+        />
+        <Stack.Screen 
+          name="SelectNetworkScreen" 
+          component={SelectNetworkScreen}
         />
         <Stack.Screen 
           name="AuthStack" 

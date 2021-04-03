@@ -29,6 +29,7 @@ import {
 import { tokensByIdSelector } from "../data/tokens/selectors";
 import { spotPricesSelector, currencySelector } from "../data/prices/selectors";
 import { tokenFavoritesSelector } from "../data/settings/selectors";
+import { currentNetworkSelector } from "../data/networks/selectors"
 
 import { updateUtxos } from "../data/utxos/actions";
 import { updateTokensMeta } from "../data/tokens/actions";
@@ -43,6 +44,8 @@ import {
 import { currencySymbolMap } from "../utils/currency-utils";
 import OPTNWelcome1 from "../assets/images/OPTNWelcome1.png";
 import { addressToSlp } from "../utils/account-utils";
+import { getStore } from "../data/store";
+const { store } = getStore();
 
 const SECOND = 1000;
 
@@ -82,6 +85,7 @@ const mapStateToProps = (state: FullState) => {
   const seedViewed = getSeedViewedSelector(state);
   const fiatCurrency = currencySelector(state);
   const tokenFavorites = tokenFavoritesSelector(state);
+  const currentNetwork = currentNetworkSelector(state);
 
   return {
     address,
@@ -92,6 +96,7 @@ const mapStateToProps = (state: FullState) => {
     fiatCurrency,
     tokensById,
     tokenFavorites,
+    currentNetwork
   }
 };
 
@@ -130,6 +135,7 @@ const HomeScreen = ({
   updateTokensMeta,
   updateUtxos,
   tokenFavorites,
+  currentNetwork,
 }: Props) => {
   useEffect(() => {
     if (!address) return;
@@ -305,6 +311,10 @@ const HomeScreen = ({
               {/* {`${currencySymbolMap[fiatCurrency]} ${spotPrices["bch"][fiatCurrency]["rate"]} ${fiatCurrency} / BCH`} */}
             </H1>
             <Spacer />
+            <T center>
+            Network: {`${currentNetwork}`}
+            </T>
+
             <SectionList 
               sections={walletSections}
               renderSectionHeader={({ section }) => (
@@ -322,7 +332,7 @@ const HomeScreen = ({
                     tokenId={item.tokenId}
                     valueDisplay={item.valueDisplay}
                     onPress={() =>
-                      console.log("hi")
+                      console.log("Navigate to Wallet Detail Screen")
                       // navigation.navigate("WalletDetailScreen", {
                       //   symbol: item.symbol,
                       //   tokenId: item.tokenId
