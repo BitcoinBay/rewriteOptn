@@ -3,22 +3,20 @@ import {
   SET_NETWORK
 } from "./constants";
 
-export type Network = 
-  | "mainnet"
-  | "testnet";
+import { NetworkCode } from "../../utils/network-utils";
 
 export type State = {
-  currentNetwork: Network;
+  currentNetwork: NetworkCode;
 }
 
 export const initialState: State = {
-  currentNetwork: "testnet"
+  currentNetwork: "mainnet"
 }
 
-const updateNetwork = (state: State, network: Network) => {
+const updateNetwork = (state: State, networkCode: NetworkCode) => {
   return {
     ...state,
-    currentNetwork: network
+    currentNetwork: networkCode
   }
 }
 

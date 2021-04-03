@@ -19,6 +19,7 @@ import { getSeedViewedSelector } from "../data/accounts/selectors";
 
 import { currencySymbolMap } from "../utils/currency-utils";
 import { currencySelector } from "../data/prices/selectors";
+import { currentNetworkSelector } from "../data/networks/selectors"
 
 import { T, Spacer } from "../atoms";
 import { FullState } from "../data/store";
@@ -101,6 +102,7 @@ type PropsFromParent = StackNavigationProp & {};
 const mapStateToProps = (state: FullState) => ({
   seedViewed: getSeedViewedSelector(state),
   fiatCurrency: currencySelector(state),
+  network: currentNetworkSelector(state),
 });
 
 const mapDispatchToProps = {};
@@ -112,7 +114,8 @@ type Props = PropsFromParent & PropsFromRedux;
 const MenuScreen = ({
   navigation,
   seedViewed,
-  fiatCurrency
+  fiatCurrency,
+  network
 }: Props) => {
   return(
     <SafeAreaView>
@@ -151,6 +154,13 @@ const MenuScreen = ({
             });
           }}
           label={`${currencySymbolMap[fiatCurrency]} ${fiatCurrency}`}
+        />
+        <OptionsRow
+          text="Network"
+          pressFn={() => {
+            navigation.navigate("SelectNetworkScreen");
+          }}
+          label={`${network}`}
         />
         <OptionsRow
           text="Frequently Asked Questions - FAQ"
