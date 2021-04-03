@@ -44,6 +44,11 @@ const WelcomeScreen = ({ navigation }: Props) => {
         </H2>
         <Spacer small />
         <T center>Bitcoin Cash (BCH) and Simple Token (SLP) wallet </T>
+        <Spacer small />
+        <Button
+          onPress={() => navigation.navigate("SelectNetworkScreen")}
+          text="Select Network"
+        />
       </View>
 
       <View
