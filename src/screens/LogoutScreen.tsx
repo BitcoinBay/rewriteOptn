@@ -73,7 +73,9 @@ const LogoutScreen = ({
           <SwipeButton
             swipeFn={() => {
               logoutAccount();
-              _.delay(() => navigation.navigate("AuthStack"), 25);
+              _.delay(() => navigation.navigate("AuthStack", {
+                screen: 'WelcomeScreen'
+              }), 25);
             }}
             labelAction="To Logout"
             labelRelease="Release to logout"
