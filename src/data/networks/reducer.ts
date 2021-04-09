@@ -5,6 +5,10 @@ import {
 
 import { NetworkCode } from "../../utils/network-utils";
 
+export interface Network {
+  network: string
+}
+
 export type State = {
   currentNetwork: NetworkCode;
 }
