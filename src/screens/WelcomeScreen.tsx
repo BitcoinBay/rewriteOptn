@@ -1,11 +1,35 @@
 import * as React from 'react';
+import { connect, ConnectedProps } from "react-redux";
 import { SafeAreaView, View, Image } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
+import { NavigationScreenProps } from "react-navigation";
 import styled from "styled-components";
 
 import { T, H1, H2, Spacer, Button } from "../atoms";
 
 import OPTNWelcome3 from "../assets/images/OPTNWelcome3.png";
+
+import { FullState } from "../data/store";
+import { toggleNetwork } from "../data/networks/actions"
+import { currentNetworkSelector } from "../data/networks/selectors";
+
+type PropsFromParent = NavigationScreenProps & {};
+
+const mapStateToProps = (state: FullState) => {
+  return {
+    networkActive: currentNetworkSelector(state)
+  };
+};
+
+const mapDispatchToProps = {
+  toggleNetwork
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromParent & PropsFromRedux;
+
 
 const StyledWrapper = styled(SafeAreaView)`
   display: flex;
@@ -14,9 +38,12 @@ const StyledWrapper = styled(SafeAreaView)`
   margin: 0 16px;
 `;
 
-type Props = StackNavigationProp & {};
+//type Props = StackNavigationProp & {};
 
-const WelcomeScreen = ({ navigation }: Props) => {
+const WelcomeScreen = ({
+   navigation,
+   networkActive, 
+  }: Props) => {
   return (
     <StyledWrapper>
       <Spacer />
@@ -49,6 +76,10 @@ const WelcomeScreen = ({ navigation }: Props) => {
           onPress={() => navigation.navigate("SelectNetworkScreen")}
           text="Select Network"
         />
+        <Spacer />
+            <T center>
+            Current Network: {`${networkActive} `}
+            </T>
       </View>
 
       <View
@@ -74,4 +105,4 @@ const WelcomeScreen = ({ navigation }: Props) => {
   );
 };
 
-export default WelcomeScreen;
+export default connector(WelcomeScreen);

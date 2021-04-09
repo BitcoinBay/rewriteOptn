@@ -218,7 +218,7 @@ const ReceiveScreen = ({
               }}
             >
               <T size="xsmall" center>
-                {address ? address : " "}
+                {address ? `${address}-test` : " "}
               </T>
               <Spacer tiny />
               {address ? (

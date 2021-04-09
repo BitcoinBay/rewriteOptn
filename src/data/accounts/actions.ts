@@ -10,6 +10,16 @@ import { Account } from "./reducer";
 
 import { deriveAccount, generateMnemonic } from "../../utils/account-utils";
 
+import {
+  currentNetworkSelector
+} from "../networks/selectors";
+import {
+  initialState,
+  State
+} from "../networks/reducer";
+import { FullState } from "../store";
+
+
 const getAccountStart = () => ({
   type: GET_ACCOUNT_START,
   payload: null
@@ -43,20 +53,30 @@ const getAccount = (mnemonic?: string, accountIndex: number = 0) => {
     const derivationPathBCH = "m/44'/145'";
     const derivationPathSLP = "m/44'/245'";
 
+
+    const networkState = {
+      ...initialState
+    } as State;
+    const state = ({ networks: networkState } as unknown) as FullState;
+    const network = currentNetworkSelector(state);
+    console.log("Network from account actions:",network);
+
     const childIndex = 0;
     //  TODO - Error or fail state
     const account = (await deriveAccount(
       accountMnemonic,
       accountIndex,
       childIndex,
-      derivationPathBCH
+      derivationPathBCH,
+      network
     )) as Account;
 
     const accountSlp = (await deriveAccount(
       accountMnemonic,
       accountIndex,
       childIndex,
-      derivationPathSLP
+      derivationPathSLP,
+      network
     )) as Account;
 
     //    console.log(account);
