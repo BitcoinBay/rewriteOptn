@@ -13,6 +13,7 @@ import {
 } from "../data/accounts/selectors";
 import { getAccount } from "../data/accounts/actions";
 import { FullState } from "../data/store";
+import { currentNetworkSelector } from "../data/networks/selectors";
 
 const ScreenWrapper = styled(SafeAreaView)`
   align-items: center;
@@ -26,6 +27,7 @@ type PropsFromParent = StackNavigationProp & {};
 const mapStateToProps = (state: FullState) => ({
   accountAddress: activeAccountIdSelector(state),
   isCreated: hasMnemonicSelector(state),
+  networkActive: currentNetworkSelector(state)
 });
 
 const mapDispatchToProps = {
@@ -41,6 +43,7 @@ const CreateWalletScreen = ({
   navigation,
   isCreated,
   getAccount,
+  networkActive,
 }: Props) => {
   useEffect(() => {
     if (isCreated) {
@@ -50,7 +53,7 @@ const CreateWalletScreen = ({
         }
       })
     } else {
-      getAccount();
+      getAccount(null, 0, networkActive);
     }
   }, [isCreated]);
 

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect, ConnectedProps } from "react-redux";
 import { SafeAreaView, View, Image } from "react-native";
 import { StackNavigationProp } from '@react-navigation/stack';
-import { NavigationScreenProps } from "react-navigation";
 import styled from "styled-components";
 
 import { T, H1, H2, Spacer, Button } from "../atoms";
@@ -10,10 +9,9 @@ import { T, H1, H2, Spacer, Button } from "../atoms";
 import OPTNWelcome3 from "../assets/images/OPTNWelcome3.png";
 
 import { FullState } from "../data/store";
-import { toggleNetwork } from "../data/networks/actions"
 import { currentNetworkSelector } from "../data/networks/selectors";
 
-type PropsFromParent = NavigationScreenProps & {};
+type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => {
   return {
@@ -21,9 +19,7 @@ const mapStateToProps = (state: FullState) => {
   };
 };
 
-const mapDispatchToProps = {
-  toggleNetwork
-};
+const mapDispatchToProps = {};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

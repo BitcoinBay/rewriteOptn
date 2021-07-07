@@ -8,18 +8,19 @@ import {
 
 import { bchjs } from "./bch-js-utils";
 
-const getBchBalance = async (address: string) => {
+const getBchBalance = async (address: string[]) => {
   try {
-    const balance = await bchjs.Electrumx.balance(address);
-    return balance;
+    const balanceResult = await bchjs.Electrumx.balance(address);
+    return balanceResult;
   } catch (e) {
     throw e;
   }
 }
 
-const getSlpBalance = async (addressSlp: string) => {
+const getSlpBalance = async (addressSlp: string[]) => {
   try {
-    const balance = await bchjs.SLP.Utils.balancesForAddress(addressSlp)
+    const balanceResult = await bchjs.SLP.Utils.balancesForAddress(addressSlp)
+    return balanceResult;
   } catch (e) {
     throw e;
   }

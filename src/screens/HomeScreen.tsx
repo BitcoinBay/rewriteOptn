@@ -314,8 +314,9 @@ const HomeScreen = ({
             <T center>
             Network: {`${currentNetwork}`}
             </T>
-
-            <SectionList 
+          </View>
+        </ScrollView>
+        <SectionList 
               sections={walletSections}
               renderSectionHeader={({ section }) => (
                 <CoinRowHeader>{section.title}</CoinRowHeader>
@@ -343,8 +344,6 @@ const HomeScreen = ({
               }
               keyExtractor={(item, index) => `${index}`}
             />
-          </View>
-        </ScrollView>
       </View>
     </SafeAreaView>
   );

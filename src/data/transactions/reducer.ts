@@ -40,7 +40,6 @@ export type State = {
   lastUpdate: number;
 };
 
-
 export const initialState: State = {
   byId: {},
   allIds: [],

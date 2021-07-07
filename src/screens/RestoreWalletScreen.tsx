@@ -18,6 +18,7 @@ import { hasMnemonicSelector } from "../data/accounts/selectors";
 
 import { bchjs } from "../utils/bch-js-utils";
 import { FullState } from "../data/store";
+import { currentNetworkSelector } from "../data/networks/selectors";
 
 const Screen = styled(ScrollView)`
   padding: 0 16px;
@@ -52,7 +53,8 @@ const formatMnemonic = (mnemonic: string) => {
 type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => ({
-  isCreated: hasMnemonicSelector(state)
+  isCreated: hasMnemonicSelector(state),
+  networkActive: currentNetworkSelector(state)
 });
 
 const mapDispatchToProps = {
@@ -67,7 +69,8 @@ type Props = PropsFromParent & PropsFromRedux;
 const RestoreWalletScreen = ({
   navigation,
   getAccount,
-  isCreated
+  isCreated,
+  networkActive
 }: Props) => {
   const [mnemonic, setMnemonic] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
@@ -150,7 +153,7 @@ const RestoreWalletScreen = ({
             );
 
             if (mnemonicMessage === "Valid mnemonic") {
-              getAccount(mnemonic.trim());
+              getAccount(mnemonic.trim(), 0, networkActive);
               return;
             }
 
