@@ -14,6 +14,11 @@ import accountsReducer, {
   initialState as initialAccountState
 } from "./accounts/reducer";
 
+import balancesReducer, {
+  State as StateBalance,
+  initialState as initialBalanceState
+} from "./balances/reducer";
+
 import transactionsReducer, {
   State as StateTransactions,
   initialState as initialTransactionsState
@@ -46,6 +51,7 @@ import networksReducer, {
 
 export type FullState = {
   accounts: StateAccount;
+  balances: StateBalances;
   prices: StatePrices;
   tokens: StateTokens;
   transactions: StateTransactions;
@@ -57,6 +63,7 @@ export type FullState = {
 
 const initialState: FullState = {
   accounts: initialAccountState,
+  balances: initialBalanceState,
   prices: initialPricesState,
   tokens: initialTokensState,
   transactions: initialTransactionsState,

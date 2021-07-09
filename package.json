@@ -91,6 +91,7 @@
       "json",
       "node"
     ],
+    "setupFiles": ["./__mocks__/@react-native-async-storage/async-storage.js"],
     "testTimeout": 12000000
   },
   "react-native": {

@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import { bchjs } from "../../utils/bch-js-utils";
 
 import {
   GET_BALANCE_FAIL,
@@ -17,9 +18,12 @@ const getBalancesStart = () => ({
   payload: null
 });
 
-const getBalancesSuccess = () => ({
+const getBalancesSuccess = (bchResult: any, slpResult: any) => ({
   type: GET_BALANCE_SUCCESS,
-  payload: {}
+  payload: {
+    bchResult,
+    slpResult
+  }
 });
 
 const getBalancesFail = () => ({
@@ -29,15 +33,17 @@ const getBalancesFail = () => ({
 
 const updateBalances = (address: string, addressSlp: string) => {
   return async (dispatch: Function, getState: Function) => {
+    dispatch(getBalancesStart());
+    
     if (!address || !addressSlp) {
+      dispatch(getBalancesFail());
       return;
     }
 
-    dispatch(getBalancesStart());
     const state: FullState = getState();
-    const fullBalanceSet = []
-    const bchBalances = await getBchBalance([address, addressSlp]);
+    const bchBalances = await getBchBalance([address, bchjs.SLP.Address.toCashAddress(addressSlp)]);
     const slpBalances = await getSlpBalance([address, addressSlp]);
+    dispatch(getBalancesSuccess(bchBalances, slpBalances));
   }
 }
 

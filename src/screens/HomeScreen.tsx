@@ -26,11 +26,13 @@ import {
   getAddressSlpSelector,
   getSeedViewedSelector
 } from "../data/accounts/selectors";
+import { getBalancesSelector } from "../data/balances/selectors";
 import { tokensByIdSelector } from "../data/tokens/selectors";
 import { spotPricesSelector, currencySelector } from "../data/prices/selectors";
 import { tokenFavoritesSelector } from "../data/settings/selectors";
 import { currentNetworkSelector } from "../data/networks/selectors"
 
+import { updateBalances } from "../data/balances/actions";
 import { updateUtxos } from "../data/utxos/actions";
 import { updateTokensMeta } from "../data/tokens/actions";
 import { updateSpotPrice } from "../data/prices/actions";
@@ -79,7 +81,7 @@ type PropsFromParent = StackNavigationProp & {};
 const mapStateToProps = (state: FullState) => {
   const address = getAddressSelector(state);
   const addressSlp = getAddressSlpSelector(state);
-  const balances = balancesSelector(state, address);
+  const balances = getBalancesSelector(state);
   const tokensById = tokensByIdSelector(state);
   const spotPrices = spotPricesSelector(state);
   const seedViewed = getSeedViewedSelector(state);
@@ -101,6 +103,7 @@ const mapStateToProps = (state: FullState) => {
 };
 
 const mapDispatchToProps = {
+  updateBalances,
   updateSpotPrice,
   updateTokensMeta,
   updateUtxos,
@@ -131,6 +134,7 @@ const HomeScreen = ({
   spotPrices,
   fiatCurrency,
   tokensById,
+  updateBalances,
   updateSpotPrice,
   updateTokensMeta,
   updateUtxos,
@@ -149,6 +153,12 @@ const HomeScreen = ({
       clearInterval(utxoInterval);
     };
   }, [address, addressSlp, updateUtxos]);
+
+  useEffect(() => {
+    if (!address || !addressSlp) return;
+    updateBalances(address, addressSlp);
+    console.log(balances);
+  }, [address, addressSlp, balances, updateBalances]);
 
   const tokenIds = Object.keys(balances.slpTokens);
   const tokenIdsHash = uuidv5(tokenIds.join(""), HASH_UUID_NAMESPACE);
