@@ -8,9 +8,13 @@ async function run() {
     let bchAddr = "bitcoincash:qr4zg7xth86yzq94gl8jvnf5z4wuupzt3g4hl47n9y";
     let slpAddr = "simpleledger:qp4g0q97tq53pasnxk2rs570c6573qvylunsf5gy9e";
     let slpCashAddr = bchjs.SLP.Address.toCashAddress(slpAddr);
-    // const bchBalance = await bchjs.Electrumx.balance([bchAddr, slpCashAddr]).then(res => console.log(res.balances[1].balance.confirmed + res.balances[1].balance.unconfirmed)).catch(e => console.log(e));
+    const bchBalance = await bchjs.Electrumx.balance([bchAddr, slpCashAddr])
+      .then(res => {
+        console.log(res.balances)
+      }).catch(e => console.log(e));
     const slpBalance = await bchjs.SLP.Utils.balancesForAddress([bchjs.SLP.Address.toSLPAddress(bchAddr), slpAddr])
       .then(res => {
+        console.log(res)
         let bchTokenBalanceResult = {};
         let slpTokenBalanceResult = {};
         const bchAddrSlpResult = res[0];

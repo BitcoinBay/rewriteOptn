@@ -1,16 +1,27 @@
 import { createSelector } from "reselect";
 import { FullState } from "../store";
 
-const balanceSelector = (state: FullState) => state.balances;
 const balanceByAccountSelector = (state: FullState) => state.balances.byAccount;
+const activeBchIdSelector = (state: FullState) => state.balances.activeBchId;
+const activeSlpIdSelector = (state: FullState) => state.balances.activeSlpId;
 
-const getBalancesSelector = createSelector(
+const getBchBalancesSelector = createSelector(
   balanceByAccountSelector,
-  (byAccount) => {
-    return byAccount;
+  activeBchIdSelector,
+  (byAccount, activeBchId) => {
+    return byAccount[activeBchId].satoshisAvailable;
+  }
+)
+
+const getSlpBalanceSelector = createSelector(
+  balanceByAccountSelector,
+  activeSlpIdSelector,
+  (byAccount, activeSlpId) => {
+    return byAccount[activeSlpId].slpTokens;
   }
 )
 
 export {
-  getBalancesSelector
+  getBchBalancesSelector,
+  getSlpBalanceSelector
 }

@@ -21,11 +21,15 @@ export type State = {
   byAccount: {
     [accountId: string]: Balance;
   };
+  activeBchId?: string | null;
+  activeSlpId?: string | null; 
   updating: boolean;
 };
 
 export const initialState: State = {
   byAccount: {},
+  activeBchId: null,
+  activeSlpId: null,
   updating: false,
 };
 
@@ -40,6 +44,9 @@ const updateBalances = (
 
   let bchTokenBalanceResult: {[key: string]: any} = {};
   let slpTokenBalanceResult: {[key: string]: any} = {};
+
+  let bchAddr = bchResult.balances[0].address;
+  let slpAddr = bchjs.SLP.Address.toSLPAddress(bchResult.balances[1].address)
 
   // BCH Address
   slpResult[0].forEach((res: any) => {
@@ -65,9 +72,11 @@ const updateBalances = (
     ...state,
     byAccount: {
       ...state.byAccount,
-      [bchResult[0].address]: bchBalance,
-      [bchResult[0].address]: slpBalance
+      [bchAddr]: bchBalance,
+      [slpAddr]: slpBalance
     },
+    activeBchId: bchAddr,
+    activeSlpId: slpAddr,
     updating: false
   };
 }
