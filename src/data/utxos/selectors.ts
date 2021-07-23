@@ -15,17 +15,17 @@ const utxosByAccountSelector = (state: FullState, address?: string | null) => {
   // const bchUtxos = accountUtxoIds.bchUtxos.map(utxoId => byId[utxoId]);
   // const slpMintUtxos = accountUtxoIds.slpMintUtxos.map(utxoId => byId[utxoId]);
   // const slpTokenUtxos = accountUtxoIds.slpTokenUtxos.map(utxoId => byId[utxoId]);
-  
+
   // return {
   //   bchUtxos: bchUtxos,
   //   slpMintUtxos: slpMintUtxos,
   //   slpTokenUtxos: slpTokenUtxos
-  // }; 
+  // };
 };
 
 const doneInitialLoadSelector = createSelector(
   utxosByAccountSelector,
-  utxos => {
+  (utxos) => {
     //console.log(utxos);
     return !!utxos;
   }
@@ -39,5 +39,5 @@ export {
   utxosSelector,
   utxosByAccountSelector,
   doneInitialLoadSelector,
-  isUpdatingUTXO
+  isUpdatingUTXO,
 };

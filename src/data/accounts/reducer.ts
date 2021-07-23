@@ -4,7 +4,7 @@ import {
   GET_ACCOUNT_SUCCESS,
   GET_ACCOUNT_FAIL,
   LOGOUT_ACCOUNT,
-  VIEW_SEED
+  VIEW_SEED,
 } from "./constants";
 
 export interface ECPair {
@@ -42,7 +42,7 @@ export const initialState: State = {
   byId: {},
   allIds: [],
   activeId: null,
-  keypairsByAccount: {}
+  keypairsByAccount: {},
 };
 
 const addAccount = (
@@ -63,7 +63,7 @@ const addAccount = (
   const combinedAccount = {
     ...removedKeypair,
     addressSlp: accountSlp.address,
-    seedViewed: !isNew
+    seedViewed: !isNew,
   };
 
   const keypairSlp = accountSlp.keypair;
@@ -78,9 +78,9 @@ const addAccount = (
         ...state.keypairsByAccount,
         [address]: {
           bch: keypair,
-          slp: keypairSlp
-        }
-      }
+          slp: keypairSlp,
+        },
+      },
     };
   }
 
@@ -88,17 +88,17 @@ const addAccount = (
     ...state,
     byId: {
       ...state.byId,
-      [address]: combinedAccount
+      [address]: combinedAccount,
     },
     keypairsByAccount: {
       ...state.keypairsByAccount,
       [address]: {
         bch: keypair,
-        slp: keypairSlp
-      }
+        slp: keypairSlp,
+      },
     },
     allIds: [...state.allIds, address],
-    activeId: address
+    activeId: address,
   };
 };
 
@@ -117,14 +117,14 @@ const setSeedViewed = (
 
   const updatedAccount = {
     ...currentAccount,
-    seedViewed: true
+    seedViewed: true,
   };
   return {
     ...state,
     byId: {
       ...state.byId,
-      [address]: updatedAccount
-    }
+      [address]: updatedAccount,
+    },
   };
 };
 

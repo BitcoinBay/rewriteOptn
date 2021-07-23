@@ -3,9 +3,9 @@ import {
   SafeAreaView,
   ScrollView,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 import styled from "styled-components";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -18,20 +18,16 @@ const ScreenWrapper = styled(ScrollView)`
 
 type Props = StackNavigationProp & {};
 
-const ContactUsScreen = ({
-  navigation
-}: Props) => {
+const ContactUsScreen = ({ navigation }: Props) => {
   return (
     <SafeAreaView
       style={{
-        height: "100%"
-      }}
-    >
+        height: "100%",
+      }}>
       <ScreenWrapper
         contentContainerStyle={{
-          flexGrow: 1
-        }}
-      >
+          flexGrow: 1,
+        }}>
         <Spacer small />
         <H2 center> Contact Us</H2>
         <Spacer small />
@@ -45,8 +41,7 @@ const ContactUsScreen = ({
         <TouchableOpacity
           onPress={() =>
             Linking.openURL("mailto:info@bitcoinbay.ca?subject=OPTN Wallet")
-          }
-        >
+          }>
           <Spacer large />
           <T center>
             <Ionicons name="ios-mail" size={22} /> Email
@@ -59,8 +54,7 @@ const ContactUsScreen = ({
         <TouchableOpacity
           onPress={() =>
             Linking.openURL("https://t.me/joinchat/Ig0qehn6gq215dzUKMp2xg")
-          }
-        >
+          }>
           <Spacer />
           <T center>
             <FontAwesome name="telegram" size={22} /> Telegram
@@ -73,8 +67,7 @@ const ContactUsScreen = ({
         <TouchableOpacity
           onPress={() =>
             Linking.openURL("https://github.com/BitcoinBay/OPTN-Wallet")
-          }
-        >
+          }>
           <Spacer />
           <T center>
             <FontAwesome name="github" size={22} /> Github
@@ -84,11 +77,8 @@ const ContactUsScreen = ({
             OPTN Github Page
           </T>
         </TouchableOpacity>
-        <Spacer fill/>
-        <Button
-          onPress={() => navigation.goBack()} 
-          text="Back"
-        />
+        <Spacer fill />
+        <Button onPress={() => navigation.goBack()} text="Back" />
         <Spacer small />
       </ScreenWrapper>
     </SafeAreaView>

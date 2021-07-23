@@ -1,11 +1,11 @@
 import { chunk } from "lodash";
 
-import { 
+import {
   getAllUtxo,
   getAllSLPUtxo,
   getTransactionDetails,
   getTokenMetadata,
-  getAddressUtxos
+  getAddressUtxos,
 } from "./transaction-utils";
 
 describe("transaction-utils", () => {
@@ -81,41 +81,42 @@ describe("transaction-utils", () => {
   // })
 
   it("getAllUtxo", async () => {
-    const utxos = (await getAddressUtxos(
-      "bitcoincash:qqakphm6jqeteh902n59h2jct706n4srpuzp95a5qh"
-      // "bitcoincash:qzf3lvx945fcuhq0pl697qf2gwpwjm6cpg8zcpz22j"
-      // "bitcoincash:qz7qny9mlr40lgzz9p37690evah4el5gmuv2694zq6"
+    const utxos = (
+      await getAddressUtxos(
+        "bitcoincash:qqakphm6jqeteh902n59h2jct706n4srpuzp95a5qh"
+        // "bitcoincash:qzf3lvx945fcuhq0pl697qf2gwpwjm6cpg8zcpz22j"
+        // "bitcoincash:qz7qny9mlr40lgzz9p37690evah4el5gmuv2694zq6"
 
-      // "bitcoincash:qzq96djt87l6k02dh4eud4kgzlmpegyyvc0853t7al"
-    ))[0];
+        // "bitcoincash:qzq96djt87l6k02dh4eud4kgzlmpegyyvc0853t7al"
+      )
+    )[0];
 
     const type1Utxos = utxos.slpUtxos.type1.tokens.concat(
       utxos.slpUtxos.type1.mintBatons
-    )
+    );
     //get the nftUtxos
     let nftUtxos = utxos.slpUtxos.nft.tokens.concat(
       utxos.slpUtxos.nft.groupTokens
-    )
-    nftUtxos = nftUtxos.concat(utxos.slpUtxos.nft.groupMintBatons)
+    );
+    nftUtxos = nftUtxos.concat(utxos.slpUtxos.nft.groupMintBatons);
 
     //combine each of the utxo arrays
     const allUtxos = utxos.bchUtxos.concat(
       utxos.nullUtxos,
       type1Utxos,
       nftUtxos
-    )
-    console.log(allUtxos)
+    );
+    console.log(allUtxos);
 
     // utxos.forEach(utxo => {
-    //   console.log(utxo.bchUtxos, 
-    //     "\n\n", utxo.nullUtxos, 
+    //   console.log(utxo.bchUtxos,
+    //     "\n\n", utxo.nullUtxos,
     //     "\n\n", utxo.slpUtxos.type1,
     //     "\n\n", utxo.slpUtxos.nft.groupMintBatons,
     //     "\n\n", utxo.slpUtxos.nft.groupTokens,
     //     "\n\n", utxo.slpUtxos.nft.tokens);
     // });
-    
+
     expect(1).toEqual(1);
   });
 });
-

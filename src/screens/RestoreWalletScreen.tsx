@@ -8,9 +8,9 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { H1, Button, T, Spacer } from "../atoms";
 import { getAccount } from "../data/accounts/actions";
@@ -18,6 +18,7 @@ import { hasMnemonicSelector } from "../data/accounts/selectors";
 
 import { bchjs } from "../utils/bch-js-utils";
 import { FullState } from "../data/store";
+import { currentNetworkSelector } from "../data/networks/selectors";
 
 const Screen = styled(ScrollView)`
   padding: 0 16px;
@@ -25,12 +26,12 @@ const Screen = styled(ScrollView)`
 `;
 
 const StyledTextInput = styled(TextInput)`
-  border: 1px ${props => props.theme.primary500};
+  border: 1px ${(props) => props.theme.primary500};
   padding: 15px 5px;
 `;
 
 const ErrorContainer = styled(View)`
-  border-color: ${props => props.theme.danger500};
+  border-color: ${(props) => props.theme.danger500};
   border-width: ${StyleSheet.hairlineWidth}px;
   border-radius: 4px;
   padding: 8px;
@@ -52,11 +53,12 @@ const formatMnemonic = (mnemonic: string) => {
 type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => ({
-  isCreated: hasMnemonicSelector(state)
+  isCreated: hasMnemonicSelector(state),
+  networkActive: currentNetworkSelector(state),
 });
 
 const mapDispatchToProps = {
-  getAccount
+  getAccount,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -67,7 +69,8 @@ type Props = PropsFromParent & PropsFromRedux;
 const RestoreWalletScreen = ({
   navigation,
   getAccount,
-  isCreated
+  isCreated,
+  networkActive,
 }: Props) => {
   const [mnemonic, setMnemonic] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
@@ -76,9 +79,10 @@ const RestoreWalletScreen = ({
   useEffect(() => {
     if (isCreated) {
       navigation.navigate("MainAppStack", {
-        screen: 'Home', params: {
-            screen: 'HomeScreen'
-        }
+        screen: "Home",
+        params: {
+          screen: "HomeScreen",
+        },
       });
     }
   }, [isCreated]);
@@ -88,9 +92,8 @@ const RestoreWalletScreen = ({
       <Screen
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          flexGrow: 1
-        }}
-      >
+          flexGrow: 1,
+        }}>
         <Spacer />
         <H1 center>Restore Wallet</H1>
         <Spacer />
@@ -106,7 +109,7 @@ const RestoreWalletScreen = ({
           autoCorrect={false}
           placeholder="Enter Backup Phrase / Mnemonic"
           value={mnemonic}
-          onChangeText={text => {
+          onChangeText={(text) => {
             const sanitized = formatMnemonic(text);
             setMnemonic(sanitized);
             setInputError(null);
@@ -150,7 +153,7 @@ const RestoreWalletScreen = ({
             );
 
             if (mnemonicMessage === "Valid mnemonic") {
-              getAccount(mnemonic.trim());
+              getAccount(mnemonic.trim(), 0, networkActive);
               return;
             }
 
@@ -174,6 +177,6 @@ const RestoreWalletScreen = ({
       </Screen>
     </SafeAreaView>
   );
-}
+};
 
 export default connector(RestoreWalletScreen);

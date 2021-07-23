@@ -9,7 +9,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 
 import { FullState } from "../data/store";
@@ -19,7 +19,7 @@ import {
   CurrencyCode,
   currencyOptions,
   currencySymbolMap,
-  currencyNameMap
+  currencyNameMap,
 } from "../utils/currency-utils";
 
 import { T, Button, Spacer } from "../atoms";
@@ -32,13 +32,13 @@ const ScreenWrapper = styled(View)`
 const ActiveSection = styled(View)`
   padding: 0 16px;
   border-bottom-width: ${StyleSheet.hairlineWidth}px;
-  border-color: ${props => props.theme.fg500};
+  border-color: ${(props) => props.theme.fg500};
 `;
 
 const RowContainer = styled(TouchableOpacity)`
   padding: 0 16px;
   border-bottom-width: ${StyleSheet.hairlineWidth}px;
-  border-color: ${props => props.theme.fg500};
+  border-color: ${(props) => props.theme.fg500};
 `;
 const RowTextContainer = styled(View)`
   flex-direction: row;
@@ -71,12 +71,12 @@ type PropsFromParent = NavigationScreenProps & {};
 
 const mapStateToProps = (state: FullState) => {
   return {
-    currencyActive: currencySelector(state)
+    currencyActive: currencySelector(state),
   };
 };
 
 const mapDispatchToProps = {
-  setFiatCurrency
+  setFiatCurrency,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -87,7 +87,7 @@ type Props = PropsFromParent & PropsFromRedux;
 const SelectCurrencyScreen = ({
   navigation,
   currencyActive,
-  setFiatCurrency
+  setFiatCurrency,
 }: Props) => {
   const updateFiatCurrency = (code: CurrencyCode) => {
     setFiatCurrency(code);
@@ -119,9 +119,7 @@ const SelectCurrencyScreen = ({
           <Spacer />
         </ScrollView>
         <Spacer small />
-        <Button 
-          onPress={() => navigation.goBack()} 
-          text="Accept" />
+        <Button onPress={() => navigation.goBack()} text="Accept" />
         <Spacer small />
       </ScreenWrapper>
     </SafeAreaView>

@@ -1,14 +1,14 @@
 import { AnyAction } from "redux";
 import {
   REMOVE_TOKEN_FROM_FAVORITES,
-  ADD_TOKEN_TO_FAVORITES
+  ADD_TOKEN_TO_FAVORITES,
 } from "./constants";
 
 export interface SettingsState {
   tokenFavorites: string[] | undefined;
 }
 export const initialState: SettingsState = {
-  tokenFavorites: []
+  tokenFavorites: [],
 };
 
 const addTokenToFavorites = (
@@ -22,7 +22,7 @@ const addTokenToFavorites = (
 
   return {
     ...state,
-    tokenFavorites: updatedFavorites
+    tokenFavorites: updatedFavorites,
   };
 };
 
@@ -32,12 +32,12 @@ const removeTokenFromFavorites = (
 ): SettingsState => {
   const { tokenFavorites } = state;
   const updatedFavorites = tokenFavorites
-    ? tokenFavorites.filter(x => x !== tokenId)
+    ? tokenFavorites.filter((x) => x !== tokenId)
     : [];
 
   return {
     ...state,
-    tokenFavorites: updatedFavorites
+    tokenFavorites: updatedFavorites,
   };
 };
 

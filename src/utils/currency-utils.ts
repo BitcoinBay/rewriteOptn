@@ -49,7 +49,7 @@ const currencyOptions: CurrencyCode[] = [
   "VEF",
   "VND",
   "XCD",
-  "ZAR"
+  "ZAR",
 ];
 
 const currencyDecimalMap: { [key in CurrencyCode]: number } = {
@@ -76,7 +76,7 @@ const currencyDecimalMap: { [key in CurrencyCode]: number } = {
   VEF: 2,
   VND: 1,
   XCD: 2,
-  ZAR: 2
+  ZAR: 2,
 };
 
 const currencyNameMap: { [key in CurrencyCode]: string } = {
@@ -103,7 +103,7 @@ const currencyNameMap: { [key in CurrencyCode]: string } = {
   VEF: "Venezuelan Bolívar",
   VND: "Vietnamese Dong",
   XCD: "Eastern Caribbean Dollar",
-  ZAR: "South African Rand"
+  ZAR: "South African Rand",
 };
 
 const currencySymbolMap = {
@@ -279,12 +279,12 @@ const currencySymbolMap = {
   XPF: "₣",
   YER: "﷼",
   ZAR: "R",
-  ZWD: "Z$"
+  ZWD: "Z$",
 };
 
 export {
   currencyOptions,
   currencySymbolMap,
   currencyDecimalMap,
-  currencyNameMap
+  currencyNameMap,
 };

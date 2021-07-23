@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import {
   GET_TRANSACTIONS_START,
   GET_TRANSACTIONS_SUCCESS,
-  GET_TRANSACTIONS_FAIL
+  GET_TRANSACTIONS_FAIL,
 } from "./constants";
 
 import { bchjs } from "../../utils/bch-js-utils";
@@ -16,7 +16,7 @@ const appendBCHPrefix = (target: string) => `bitcoincash:${target}`;
 
 const getTransactionsStart = () => ({
   type: GET_TRANSACTIONS_START,
-  payload: null
+  payload: null,
 });
 
 const getTransactionsSuccess = (
@@ -28,19 +28,16 @@ const getTransactionsSuccess = (
   payload: {
     transactions,
     address,
-    timestamp
-  }
+    timestamp,
+  },
 });
 
 const getTransactionsFail = () => ({
   type: GET_TRANSACTIONS_FAIL,
-  payload: null
+  payload: null,
 });
 
-const updateTransactions = (
-  address: string, 
-  addressSlp: string
-) => {
+const updateTransactions = (address: string, addressSlp: string) => {
   return async (dispatch: Function, getState: Function) => {
     if (!address || !addressSlp) return;
 
@@ -59,13 +56,7 @@ const updateTransactions = (
 
     const latestBlock = transactionsLatestBlockSelector(currentState);
     const allTxIds = new Set(transactionsSelector(currentState).allIds);
+  };
+};
 
-    
-  }
-}
-
-export {
-  getTransactionsStart,
-  getTransactionsSuccess,
-  getTransactionsFail,
-}
+export { getTransactionsStart, getTransactionsSuccess, getTransactionsFail };
