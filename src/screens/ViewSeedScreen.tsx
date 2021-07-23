@@ -3,12 +3,12 @@ import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 
 import { View, ScrollView, SafeAreaView } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { viewSeed } from "../data/accounts/actions";
 import {
   getMnemonicSelector,
-  getAddressSelector
+  getAddressSelector,
 } from "../data/accounts/selectors";
 import { T, Spacer, Button } from "../atoms";
 import { FullState } from "../data/store";
@@ -25,7 +25,7 @@ const WordRow = styled(View)``;
 
 const Cover = styled(View)`
   position: absolute;
-  background-color: ${props => props.theme.coverBg};
+  background-color: ${(props) => props.theme.coverBg};
   align-items: center;
   justify-content: center;
   top: 0;
@@ -41,11 +41,11 @@ type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => ({
   address: getAddressSelector(state),
-  mnemonic: getMnemonicSelector(state)
+  mnemonic: getMnemonicSelector(state),
 });
 
 const mapDispatchToProps = {
-  viewSeed
+  viewSeed,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -53,12 +53,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromParent & PropsFromRedux;
 
-const ViewSeedScreen = ({ 
-  navigation,
-  mnemonic, 
-  viewSeed, 
-  address 
-}: Props) => {
+const ViewSeedScreen = ({ navigation, mnemonic, viewSeed, address }: Props) => {
   const [showing, setShowing] = useState(false);
 
   const words = showing ? mnemonic : "---------- ".repeat(12).trim();
@@ -111,10 +106,7 @@ const ViewSeedScreen = ({
           </View>
         </WordHolder>
         <Spacer />
-        <Button
-          onPress={() => navigation.goBack()}
-          text="Back"
-        />
+        <Button onPress={() => navigation.goBack()} text="Back" />
       </Screen>
     </SafeAreaView>
   );

@@ -9,16 +9,16 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 
 import { FullState } from "../data/store";
-import { toggleNetwork } from "../data/networks/actions"
-import { currentNetworkSelector } from "../data/networks/selectors"
+import { toggleNetwork } from "../data/networks/actions";
+import { currentNetworkSelector } from "../data/networks/selectors";
 import {
   NetworkCode,
   networkOptions,
-  networkNameMap
+  networkNameMap,
 } from "../utils/network-utils";
 
 import { T, Button, Spacer } from "../atoms";
@@ -31,13 +31,13 @@ const ScreenWrapper = styled(View)`
 const ActiveSection = styled(View)`
   padding: 0 16px;
   border-bottom-width: ${StyleSheet.hairlineWidth}px;
-  border-color: ${props => props.theme.fg500};
+  border-color: ${(props) => props.theme.fg500};
 `;
 
 const RowContainer = styled(TouchableOpacity)`
   padding: 0 16px;
   border-bottom-width: ${StyleSheet.hairlineWidth}px;
-  border-color: ${props => props.theme.fg500};
+  border-color: ${(props) => props.theme.fg500};
 `;
 const RowTextContainer = styled(View)`
   flex-direction: row;
@@ -70,12 +70,12 @@ type PropsFromParent = NavigationScreenProps & {};
 
 const mapStateToProps = (state: FullState) => {
   return {
-    networkActive: currentNetworkSelector(state)
+    networkActive: currentNetworkSelector(state),
   };
 };
 
 const mapDispatchToProps = {
-  toggleNetwork
+  toggleNetwork,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -86,7 +86,7 @@ type Props = PropsFromParent & PropsFromRedux;
 const SelectNetworkScreen = ({
   navigation,
   networkActive,
-  toggleNetwork
+  toggleNetwork,
 }: Props) => {
   const updateNetwork = (network: NetworkCode) => {
     toggleNetwork(network);
@@ -118,9 +118,7 @@ const SelectNetworkScreen = ({
           <Spacer />
         </ScrollView>
         <Spacer small />
-        <Button 
-          onPress={() => navigation.goBack()} 
-          text="Accept" />
+        <Button onPress={() => navigation.goBack()} text="Accept" />
         <Spacer small />
       </ScreenWrapper>
     </SafeAreaView>

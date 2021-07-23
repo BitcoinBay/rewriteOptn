@@ -15,7 +15,7 @@ const StyledButton = styled(TouchableOpacity)<ButtonProps>`
   padding: 8px 12px;
   border-radius: 3px;
   justify-content: center;
-  ${props =>
+  ${(props) =>
     props.nature === "primary"
       ? css`
           background-color: ${props.theme.primary500};
@@ -32,7 +32,7 @@ const StyledButton = styled(TouchableOpacity)<ButtonProps>`
         `
       : props.nature === "inverse"
       ? css`
-          background-color: ${props => props.theme.bg900};
+          background-color: ${(props) => props.theme.bg900};
           border-color: ${props.theme.primary300};
         `
       : css`

@@ -3,9 +3,9 @@ import {
   SafeAreaView,
   ScrollView,
   Linking,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 import styled from "styled-components";
 
 import { H2, T, Spacer, Button } from "../atoms";
@@ -31,9 +31,7 @@ const FAQItem = ({ title, children }: FAQProps) => (
 
 type Props = StackNavigationProp & {};
 
-const FAQScreen = ({
-  navigation
-}: Props) => {
+const FAQScreen = ({ navigation }: Props) => {
   const scrollRef = useRef<ScrollView>(null);
 
   return (
@@ -43,10 +41,9 @@ const FAQScreen = ({
       <Spacer small />
       <ScrollView
         style={{
-          padding: 10
+          padding: 10,
         }}
-        ref={scrollRef}
-      >
+        ref={scrollRef}>
         <FAQItem title="Which cryptocurrencies does OPTN wallet support?">
           <T>Bitcoin Cash (BCH) and thousands of SLP tokens.</T>
         </FAQItem>
@@ -58,8 +55,7 @@ const FAQScreen = ({
           <TouchableOpacity
             onPress={() =>
               Linking.openURL("https://github.com/BitcoinBay/OPTN-Wallet")
-            }
-          >
+            }>
             <T type="accent">github.com/BitcoinBay/OPTN-Wallet</T>
           </TouchableOpacity>
         </FAQItem>
@@ -73,8 +69,7 @@ const FAQScreen = ({
             everyday spending, large business deals, and everything in between.
           </T>
           <TouchableOpacity
-            onPress={() => Linking.openURL("https://bitcoincash.org")}
-          >
+            onPress={() => Linking.openURL("https://bitcoincash.org")}>
             <T type="accent">bitcoincash.org</T>
           </TouchableOpacity>
         </FAQItem>
@@ -93,8 +88,7 @@ const FAQScreen = ({
           </T>
 
           <TouchableOpacity
-            onPress={() => Linking.openURL("https://simpleledger.info")}
-          >
+            onPress={() => Linking.openURL("https://simpleledger.info")}>
             <T type="accent">simpleledger.info</T>
           </TouchableOpacity>
         </FAQItem>
@@ -135,10 +129,7 @@ const FAQScreen = ({
         </FAQItem>
       </ScrollView>
       <Spacer small />
-      <Button
-        onPress={() => navigation.goBack()} 
-        text="Back"
-      />
+      <Button onPress={() => navigation.goBack()} text="Back" />
       <Spacer small />
     </ScreenView>
   );

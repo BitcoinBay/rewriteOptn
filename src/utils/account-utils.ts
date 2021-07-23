@@ -1,5 +1,6 @@
 import { bchjs } from "./bch-js-utils";
 import { getStore } from "../data/store";
+import { NetworkCode } from "../../utils/network-utils";
 
 const generateMnemonic = () => {
   const mnemonic = bchjs.Mnemonic.generate(128);
@@ -10,14 +11,14 @@ const deriveAccount = async (
   mnemonic: string,
   accountIndex: number = 0,
   childIndex: number = 0,
-  hdPathString: string
+  hdPathString: string,
+  network: NetworkCode
 ) => {
   if (!mnemonic) {
-    throw new Error("Mnemonic required to derive account"); 
+    throw new Error("Mnemonic required to derive account");
   }
 
-  const { store } = getStore();
-  const network = store.getState().networks.currentNetwork;
+  console.log("Current Network is ", network);
 
   const seed = await bchjs.Mnemonic.toSeed(mnemonic);
   const hdWallet = bchjs.HDNode.fromSeed(seed, network);
@@ -34,7 +35,7 @@ const deriveAccount = async (
     mnemonic,
     keypair,
     address,
-    accountIndex
+    accountIndex,
   };
 };
 

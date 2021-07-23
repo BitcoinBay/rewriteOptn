@@ -23,7 +23,7 @@ export interface TxParams {
 }
 
 // Depreciating soon
-const getAllUtxo = async (address: string)  => {
+const getAllUtxo = async (address: string) => {
   try {
     const result = await bchjs.Ninsight.utxo(address);
     return result;
@@ -37,9 +37,9 @@ const getAllSLPUtxo = async (address: string) => {
   try {
     const utxos = await bchjs.Ninsight.utxo(address);
     const utxoRequests = await Promise.all(
-      chunk(utxos[0].utxos, 20).map(utxoChunk => {
+      chunk(utxos[0].utxos, 20).map((utxoChunk) => {
         return bchjs.SLP.Utils.tokenUtxoDetails(
-          utxos[0].utxos, 
+          utxos[0].utxos,
           // Delay 100mS between processing UTXOs, to prevent rate-limit errors.
           { utxoDelay: 300 }
         );
@@ -51,25 +51,25 @@ const getAllSLPUtxo = async (address: string) => {
   } catch (e) {
     throw e;
   }
-}
+};
 
 const getAddressUtxos = async (address: string) => {
   try {
     let utxos = await bchjs.Utxo.get(address);
-    return utxos
+    return utxos;
   } catch (e) {
     throw e;
   }
-}
+};
 
-const getTokenStats = async(tokenId: string): TokenData => {
+const getTokenStats = async (tokenId: string): TokenData => {
   try {
     const tokenStats = await bchjs.SLP.Utils.tokenStats(tokenId);
     return tokenStats;
   } catch (e) {
     throw e;
   }
-}
+};
 
 const getTransactionDetails = async (txid: string | string[]) => {
   try {
@@ -87,7 +87,7 @@ const getTokenMetadata = async (txid: string): TokenData => {
   } catch (e) {
     throw e;
   }
-}
+};
 
 const publishTx = async (hex: string) => {
   const result = await bchjs.RawTransactions.sendRawTransaction(hex);
@@ -109,5 +109,5 @@ export {
   getAllUtxo,
   getAllSLPUtxo,
   getTransactionDetails,
-  getAddressUtxos
+  getAddressUtxos,
 };

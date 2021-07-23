@@ -3,7 +3,7 @@ import {
   UPDATE_BCH_SPOT_PRICE_START,
   UPDATE_BCH_SPOT_PRICE_SUCCESS,
   UPDATE_BCH_SPOT_PRICE_FAIL,
-  SET_FIAT_CURRENCY
+  SET_FIAT_CURRENCY,
 } from "./constants";
 
 import { CurrencyCode } from "../../utils/currency-utils";
@@ -26,10 +26,10 @@ export const initialState: State = {
     bch: {
       USD: {
         rate: null,
-        lastUpdated: null
-      }
-    }
-  }
+        lastUpdated: null,
+      },
+    },
+  },
 };
 
 const updateSpotRate = (
@@ -37,7 +37,7 @@ const updateSpotRate = (
   {
     currency,
     rate,
-    timestamp
+    timestamp,
   }: {
     currency: CurrencyCode;
     rate: number | null;
@@ -52,17 +52,17 @@ const updateSpotRate = (
         ...state.spot.bch,
         [currency]: {
           rate,
-          lastUpdated: timestamp
-        }
-      }
-    }
+          lastUpdated: timestamp,
+        },
+      },
+    },
   };
 };
 
 const updateFiatCurrency = (state: State, currencyCode: CurrencyCode) => {
   return {
     ...state,
-    currencySelected: currencyCode
+    currencySelected: currencyCode,
   };
 };
 
@@ -78,7 +78,7 @@ const prices = (state = initialState, action: AnyAction) => {
       return updateSpotRate(state, {
         currency: action.payload.currency,
         rate: null,
-        timestamp: action.payload.timestamp
+        timestamp: action.payload.timestamp,
       });
 
     case SET_FIAT_CURRENCY:

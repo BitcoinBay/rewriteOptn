@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { SafeAreaView, Linking } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { H1, T, Spacer, Button } from "../atoms";
 
@@ -16,9 +16,8 @@ const PrivacyNoticeScreen = ({ navigation }: Props) => {
   return (
     <ScreenView
       style={{
-        flex: 1
-      }}
-    >
+        flex: 1,
+      }}>
       <Spacer large />
       <H1 center>Privacy Overview</H1>
       <Spacer />
@@ -30,16 +29,12 @@ const PrivacyNoticeScreen = ({ navigation }: Props) => {
         center
         onPress={() =>
           Linking.openURL("https://www.bitcoin.com/privacy-policy")
-        }
-      >
+        }>
         https://www.bitcoin.com/privacy-policy
       </T>
 
       <Spacer fill />
-      <Button
-        onPress={() => navigation.goBack()} 
-        text="Accept"
-      />
+      <Button onPress={() => navigation.goBack()} text="Accept" />
       <Spacer />
     </ScreenView>
   );
@@ -50,9 +45,8 @@ const ViewPrivacyNoticeScreen = ({ navigation }: Props) => {
   return (
     <ScreenView
       style={{
-        flex: 1
-      }}
-    >
+        flex: 1,
+      }}>
       <Spacer large />
       <H1 center>Privacy Overview</H1>
       <Spacer />
@@ -64,16 +58,13 @@ const ViewPrivacyNoticeScreen = ({ navigation }: Props) => {
         center
         onPress={() =>
           Linking.openURL("https://www.bitcoin.com/privacy-policy")
-        }
-      >
+        }>
         https://www.bitcoin.com/privacy-policy
       </T>
 
       <Spacer small />
-      <Button 
-        onPress={() => navigation.goBack()} 
-        text="Accept" />
-      <Spacer small/>
+      <Button onPress={() => navigation.goBack()} text="Accept" />
+      <Spacer small />
     </ScreenView>
   );
 };

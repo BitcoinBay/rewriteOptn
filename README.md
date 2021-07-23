@@ -89,7 +89,7 @@ Keeping the entire app on this single pattern will make the code more consistent
 All styling is done with the `styled-components` library.  
 Most of the base components we reuse should be turned into atoms and put into the `/atoms` folder.
 
-To reuse variables throughout the app (like colo and spacing), define them in one of the `./themes` files.
+To reuse variables throughout the app (like color and spacing), define them in one of the `./themes` files.
 
 ### Navigation
 

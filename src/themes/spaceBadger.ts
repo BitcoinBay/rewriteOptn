@@ -41,7 +41,7 @@ const spaceBadger: Theme = {
   primary500: "#0AC18E",
   primary900: "#edfaf6",
   success500: "rgb(62, 193, 10)",
-  success700: "#f6fff4"
+  success700: "#f6fff4",
 };
 
 export { spaceBadger };

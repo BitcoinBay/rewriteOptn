@@ -18,7 +18,7 @@ const SwipeButtonContainer = styled(View)`
   height: 64px;
   align-self: center;
   border-width: 2px;
-  border-color: ${props => props.theme.primary300};
+  border-color: ${(props) => props.theme.primary300};
 `;
 
 const SwipeContent = styled(View)<{ activated: boolean }>`
@@ -27,7 +27,7 @@ const SwipeContent = styled(View)<{ activated: boolean }>`
   align-items: flex-end;
   justify-content: center;
 
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.activated ? props.theme.success500 : props.theme.pending500};
 `;
 
@@ -36,7 +36,7 @@ const SwipeMainContent = styled(View)<{ triggered: boolean }>`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.triggered ? props.theme.success500 : props.theme.primary500};
 `;
 
@@ -61,7 +61,7 @@ const SwipeButton = ({
   controlledState,
   labelAction,
   labelRelease,
-  labelHalfway
+  labelHalfway,
 }: Props) => {
   const [state, setState] = useState<ButtonStates>(controlledState);
   const [swipeActivated, setSwipeActivated] = useState(false);
@@ -96,8 +96,7 @@ const SwipeButton = ({
           }
           onLeftActionActivate={() => setSwipeActivated(true)}
           onLeftActionDeactivate={() => setSwipeActivated(false)}
-          onLeftActionComplete={swipeFn}
-        >
+          onLeftActionComplete={swipeFn}>
           <SwipeMainContent triggered={state === "activated"}>
             <T weight="bold" type="inverse">
               Swipe{" "}
@@ -106,9 +105,8 @@ const SwipeButton = ({
               weight="bold"
               type="inverse"
               style={{
-                paddingTop: 2
-              }}
-            >
+                paddingTop: 2,
+              }}>
               <Ionicons name="ios-arrow-round-forward" size={25} />
             </T>
             <T weight="bold" type="inverse">

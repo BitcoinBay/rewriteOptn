@@ -1,3 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable quotes */
 import React, { useEffect, useMemo, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
@@ -9,10 +12,10 @@ import {
   SectionList,
   View,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import { v5 as uuidv5 } from 'uuid';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { v5 as uuidv5 } from "uuid";
 import BigNumber from "bignumber.js";
 
 import { T, H1, Spacer, Button } from "../atoms";
@@ -24,13 +27,18 @@ import { balancesSelector } from "../data/selectors";
 import {
   getAddressSelector,
   getAddressSlpSelector,
-  getSeedViewedSelector
+  getSeedViewedSelector,
 } from "../data/accounts/selectors";
+import {
+  getBchBalancesSelector,
+  getSlpBalanceSelector,
+} from "../data/balances/selectors";
 import { tokensByIdSelector } from "../data/tokens/selectors";
 import { spotPricesSelector, currencySelector } from "../data/prices/selectors";
 import { tokenFavoritesSelector } from "../data/settings/selectors";
-import { currentNetworkSelector } from "../data/networks/selectors"
+import { currentNetworkSelector } from "../data/networks/selectors";
 
+import { updateBalances } from "../data/balances/actions";
 import { updateUtxos } from "../data/utxos/actions";
 import { updateTokensMeta } from "../data/tokens/actions";
 import { updateSpotPrice } from "../data/prices/actions";
@@ -38,7 +46,7 @@ import { updateSpotPrice } from "../data/prices/actions";
 import {
   formatAmount,
   formatFiatAmount,
-  computeFiatAmount
+  computeFiatAmount,
 } from "../utils/balance-utils";
 
 import { currencySymbolMap } from "../utils/currency-utils";
@@ -53,11 +61,13 @@ const SECOND = 1000;
 const HASH_UUID_NAMESPACE = "9fcd327c-41df-412f-ba45-3cc90970e680";
 
 const BackupNotice = styled(TouchableOpacity)`
-  border-color: ${props => props.theme.accent500};
+  border-color: ${(props: { theme: { accent500: any } }) =>
+    props.theme.accent500};
   border-width: ${StyleSheet.hairlineWidth}px;
   border-radius: 4px;
   padding: 8px;
-  background-color: ${props => props.theme.accent900};
+  background-color: ${(props: { theme: { accent900: any } }) =>
+    props.theme.accent900};
   margin: 8px 16px;
 `;
 
@@ -79,7 +89,7 @@ type PropsFromParent = StackNavigationProp & {};
 const mapStateToProps = (state: FullState) => {
   const address = getAddressSelector(state);
   const addressSlp = getAddressSlpSelector(state);
-  const balances = balancesSelector(state, address);
+  const balances = getBchBalancesSelector(state);
   const tokensById = tokensByIdSelector(state);
   const spotPrices = spotPricesSelector(state);
   const seedViewed = getSeedViewedSelector(state);
@@ -96,11 +106,12 @@ const mapStateToProps = (state: FullState) => {
     fiatCurrency,
     tokensById,
     tokenFavorites,
-    currentNetwork
-  }
+    currentNetwork,
+  };
 };
 
 const mapDispatchToProps = {
+  updateBalances,
   updateSpotPrice,
   updateTokensMeta,
   updateUtxos,
@@ -131,6 +142,7 @@ const HomeScreen = ({
   spotPrices,
   fiatCurrency,
   tokensById,
+  updateBalances,
   updateSpotPrice,
   updateTokensMeta,
   updateUtxos,
@@ -138,10 +150,12 @@ const HomeScreen = ({
   currentNetwork,
 }: Props) => {
   useEffect(() => {
-    if (!address) return;
-    updateUtxos(address, address);
+    if (!address) {
+      return;
+    }
+    // updateUtxos(address, address);
     const utxoInterval = setInterval(
-      () => updateUtxos(address, addressSlp), 
+      () => updateUtxos(address, addressSlp),
       // Fullstack.cash rate limit set defaults at 3 requests per minute
       60 * SECOND
     );
@@ -150,18 +164,26 @@ const HomeScreen = ({
     };
   }, [address, addressSlp, updateUtxos]);
 
-  const tokenIds = Object.keys(balances.slpTokens);
-  const tokenIdsHash = uuidv5(tokenIds.join(""), HASH_UUID_NAMESPACE);
-
   useEffect(() => {
-    // Fetch token metadata if any are missing
-    const missingTokenIds = tokenIds.filter(tokenId => !tokensById[tokenId]);
-    updateTokensMeta(missingTokenIds);
-  }, [tokenIdsHash]);
+    if (!address || !addressSlp) {
+      return;
+    }
+    updateBalances(address, addressSlp);
+    console.log(balances);
+  }, [address, addressSlp, balances, updateBalances]);
+
+  // const tokenIds = Object.keys(balances.slpTokens);
+  // const tokenIdsHash = uuidv5(tokenIds.join(""), HASH_UUID_NAMESPACE);
+
+  // useEffect(() => {
+  //   // Fetch token metadata if any are missing
+  //   const missingTokenIds = tokenIds.filter(tokenId => !tokensById[tokenId]);
+  //   updateTokensMeta(missingTokenIds);
+  // }, [tokenIdsHash]);
 
   useEffect(() => {
     // Update the BCH price on an interval
-    updateSpotPrice(fiatCurrency);
+    // updateSpotPrice(fiatCurrency);
     const spotPriceInterval = setInterval(
       () => updateSpotPrice(fiatCurrency),
       60 * SECOND
@@ -169,118 +191,141 @@ const HomeScreen = ({
     return () => clearInterval(spotPriceInterval);
   }, [navigation, fiatCurrency, updateSpotPrice]);
 
-  const BCHFiatDisplay = useMemo(() => {
-    const BCHFiatAmount = computeFiatAmount(
-      balances.satoshisAvailable,
-      spotPrices,
-      fiatCurrency,
-      "bch"
-    );
+  // const BCHFiatDisplay = useMemo(() => {
+  //   if (!balances[address]) return;
+  //   const BCHFiatAmount = computeFiatAmount(
+  //     balances[address].satoshisAvailable,
+  //     spotPrices,
+  //     fiatCurrency,
+  //     "bch"
+  //   );
 
-    return formatFiatAmount(BCHFiatAmount, fiatCurrency, "bch");
-  }, [balances.satoshisAvailable, fiatCurrency, spotPrices]);
+  //   return formatFiatAmount(BCHFiatAmount, fiatCurrency, "bch");
+  // }, [balances, fiatCurrency, spotPrices]);
 
-  const tokenData = useMemo(() => {
-    const slpTokensDisplay = Object.keys(balances.slpTokens).map<
-      [string, BigNumber]
-    >(key => [key, balances.slpTokens[key]]);
+  // const tokenData = useMemo(() => {
+  //   const slpTokensDisplay = Object.keys(balances.slpTokens).map<
+  //     [string, BigNumber]
+  //   >(key => [key, balances.slpTokens[key]]);
 
-    const tokensWithBalance = slpTokensDisplay.filter(
-      ([tokenId, amount]) => amount.toNumber() !== 0
-    );
-    const tokensFormatted = tokensWithBalance.map(([tokenId, amount]) => {
-      const token = tokensById[tokenId];
-      const symbol = token ? token.symbol : "---";
-      const name = token ? token.name : "--------";
-      const decimals = token ? token.decimals : null;
-      const amountFormatted = formatAmount(amount, decimals);
+  //   const tokensWithBalance = slpTokensDisplay.filter(
+  //     ([tokenId, amount]) => amount.toNumber() !== 0
+  //   );
+  //   const tokensFormatted = tokensWithBalance.map(([tokenId, amount]) => {
+  //     const token = tokensById[tokenId];
+  //     const symbol = token ? token.symbol : "---";
+  //     const name = token ? token.name : "--------";
+  //     const decimals = token ? token.decimals : null;
+  //     const amountFormatted = formatAmount(amount, decimals);
 
-      return {
-        symbol,
-        name,
-        amount: amountFormatted,
-        tokenId
-      };
-    });
+  //     return {
+  //       symbol,
+  //       name,
+  //       amount: amountFormatted,
+  //       tokenId
+  //     };
+  //   });
 
-    const tokensSorted = tokensFormatted.sort((a, b) => {
-      const symbolA = a.symbol.toUpperCase();
-      const symbolB = b.symbol.toUpperCase();
-      if (symbolA < symbolB) return -1;
-      if (symbolA > symbolB) return 1;
-      return 0;
-    });
-    return tokensSorted;
-  }, [balances.slpTokens, tokensById]);
+  //   const tokensSorted = tokensFormatted.sort((a, b) => {
+  //     const symbolA = a.symbol.toUpperCase();
+  //     const symbolB = b.symbol.toUpperCase();
+  //     if (symbolA < symbolB) return -1;
+  //     if (symbolA > symbolB) return 1;
+  //     return 0;
+  //   });
+  //   return tokensSorted;
+  // }, [balances.slpTokens, tokensById]);
 
-  const favoriteTokensSection: WalletSection | null = useMemo(() => {
-    const filteredTokens = tokenData.filter(
-      data => tokenFavorites && tokenFavorites.includes(data.tokenId)
-    );
+  // const favoriteTokensSection: WalletSection | null = useMemo(() => {
+  //   const filteredTokens = tokenData.filter(
+  //     data => tokenFavorites && tokenFavorites.includes(data.tokenId)
+  //   );
 
-    return filteredTokens.length
-      ? {
-          title: "SLP Tokens - Favorites",
-          data: filteredTokens
-        }
-      : null;
-  }, [tokenData, tokenFavorites]);
+  //   return filteredTokens.length
+  //     ? {
+  //         title: "SLP Tokens - Favorites",
+  //         data: filteredTokens
+  //       }
+  //     : null;
+  // }, [tokenData, tokenFavorites]);
 
-  const tokensSection: WalletSection = useMemo(() => {
-    const favoriteTokens = tokenData.filter(data =>
-      tokenFavorites ? !tokenFavorites.includes(data.tokenId) : true
-    );
-    return {
-      title: "SLP Tokens",
-      data: favoriteTokens
-    };
-  }, [tokenData, tokenFavorites]);
+  // const tokensSection: WalletSection = useMemo(() => {
+  //   const favoriteTokens = tokenData.filter(data =>
+  //     tokenFavorites ? !tokenFavorites.includes(data.tokenId) : true
+  //   );
+  //   return {
+  //     title: "SLP Tokens",
+  //     data: favoriteTokens
+  //   };
+  // }, [tokenData, tokenFavorites]);
 
-  const walletSections: WalletSection[] = useMemo(() => {
-    const sectionBCH: WalletSection = {
-      title: "Bitcoin Cash Wallet",
-      data: [
-        {
-          symbol: "BCH",
-          name: "Bitcoin Cash",
-          // amount: "1337.42069",
-          amount: formatAmount(balances.satoshisAvailable, 8),
-          valueDisplay: BCHFiatDisplay
-        }
-      ]
-    };
+  // const walletSections: WalletSection[] = useMemo(() => {
+  //   if (!balances[address]) {
+  //     const emptySectionBCH: WalletSection = {
+  //       title: "",
+  //       data: [
+  //         {
+  //           symbol: "",
+  //           name: "",
+  //           amount: formatAmount(0, 8),
+  //           // valueDisplay: BCHFiatDisplay
+  //           valueDisplay: new BigNumber(0)
+  //         }
+  //       ]
+  //     }
+  //     return [
+  //       emptySectionBCH
+  //     ].filter(
+  //       Boolean
+  //     ) as WalletSection[];
+  //   }
 
-    return [sectionBCH, favoriteTokensSection, tokensSection].filter(
-      Boolean
-    ) as WalletSection[];
-  }, [
-    BCHFiatDisplay,
-    balances.satoshisAvailable,
-    favoriteTokensSection,
-    tokensSection
-  ]);
+  //   const sectionBCH: WalletSection = {
+  //     title: "Bitcoin Cash Wallet",
+  //     data: [
+  //       {
+  //         symbol: "BCH",
+  //         name: "Bitcoin Cash",
+  //         // amount: "1337.42069",
+  //         amount: formatAmount(balances[address].satoshisAvailable, 8),
+  //         // valueDisplay: BCHFiatDisplay
+  //         valueDisplay: new BigNumber(0)
+  //       }
+  //     ]
+  //   };
+
+  //   return [
+  //     sectionBCH,
+  //     // favoriteTokensSection,
+  //     // tokensSection
+  //   ].filter(
+  //     Boolean
+  //   ) as WalletSection[];
+  // }, [
+  //   // BCHFiatDisplay,
+  //   balances,
+  //   // favoriteTokensSection,
+  //   // tokensSection
+  // ]);
 
   return (
     <SafeAreaView>
       <View
         style={{
           height: "100%",
-          alignItems: "stretch"
-        }}
-      >
+          alignItems: "stretch",
+        }}>
         <ScrollView
           style={{
-            flex: 1
+            flex: 1,
           }}
           contentContainerStyle={{
-            flexGrow: 1
-          }}
-        >
+            flexGrow: 1,
+          }}>
           {!seedViewed ? (
             <>
               <BackupNotice
-                onPress={() => navigation.navigate("ViewSeedScreen")}
-              >
+                onPress={() => navigation.navigate("ViewSeedScreen")}>
                 <T center size="small" type="accent">
                   Please backup your Seed Phrase
                 </T>
@@ -296,26 +341,22 @@ const HomeScreen = ({
               width: 350,
               height: 150,
               resizeMode: "contain",
-              alignItems: "center"
+              alignItems: "center",
             }}
           />
-          <View 
+          <View
             style={{
-              position: "relative"
-            }}
-          >
-            <T center>
-              Current Price
-            </T>
+              position: "relative",
+            }}>
+            <T center>Current Price</T>
             <H1 center>
               {/* {`${currencySymbolMap[fiatCurrency]} ${spotPrices["bch"][fiatCurrency]["rate"]} ${fiatCurrency} / BCH`} */}
             </H1>
             <Spacer />
-            <T center>
-            Network: {`${currentNetwork}`}
-            </T>
-
-            <SectionList 
+            <T center>Network: {`${currentNetwork}`}</T>
+          </View>
+        </ScrollView>
+        {/* <SectionList
               sections={walletSections}
               renderSectionHeader={({ section }) => (
                 <CoinRowHeader>{section.title}</CoinRowHeader>
@@ -342,12 +383,10 @@ const HomeScreen = ({
                 )
               }
               keyExtractor={(item, index) => `${index}`}
-            />
-          </View>
-        </ScrollView>
+            /> */}
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default connector(HomeScreen);

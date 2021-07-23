@@ -1,21 +1,15 @@
-// import {
-//   computeFiatAmount,
-//   formatAmount,
-//   formatAmountInput,
-//   formatFiatAmount
-// } from "./balance-utils";
-
-// describe("balance-utils", () => {
-//   it("getHistoricalBchTransactions", async () => {
-//     const testTxHistory = await getHistoricalBchTransactions(
-//       "bitcoincash:qqakphm6jqeteh902n59h2jct706n4srpuzp95a5qh"
-//       // "simpleledger:pqdhc5h3lgwd98alhm7d8ska4ay87ghp8gm0egwwg4"
-//     );
-//     console.log(testTxHistory[0]);
-//     expect(testTxHistory).toEqual(testTxHistory);
-//   });
-// });
+import { getBchBalance, getSlpBalance } from "./balance-utils";
 
 describe("balance-utils", () => {
-  it.todo("to complete");
+  it.todo("getBchBalance", async () => {
+    let bchAddr = "bitcoincash:qrdka2205f4hyukutc2g0s6lykperc8nsu5u2ddpqf";
+    let slpAddr = "simpleledger:qr5agtachyxvrwxu76vzszan5pnvuzy8duhv4lxrsk";
+    const bchBalances = await getBchBalance([bchAddr, slpAddr]).then((res) =>
+      console.log(res)
+    );
+    const slpBalances = await getSlpBalance([bchAddr, slpAddr]).then((res) =>
+      console.log(res)
+    );
+    expect(1).toEqual(1);
+  });
 });

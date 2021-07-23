@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import { ActivityIndicator, View } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { T, Spacer } from "../atoms";
 import { getMnemonicSelector } from "../data/accounts/selectors";
@@ -31,7 +31,7 @@ const mapStateToProps = (state: FullState) => {
 };
 
 const mapDispatchToProps = {
-  getAccount
+  getAccount,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -39,23 +39,20 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromParent & PropsFromRedux;
 
-const AuthLoadingScreen = ({ 
-  navigation, 
-  mnemonic,
-  getAccount,
-}: Props) => {
+const AuthLoadingScreen = ({ navigation, mnemonic, getAccount }: Props) => {
   // re-generate accounts keypair then go to Main.
   useEffect(() => {
     if (mnemonic) {
       getAccount(mnemonic);
       navigation.navigate("MainAppStack", {
-        screen: 'Home', params: {
-            screen: 'HomeScreen'
-        }
+        screen: "Home",
+        params: {
+          screen: "HomeScreen",
+        },
       });
     } else {
       navigation.navigate("AuthStack", {
-        screen: 'WelcomeScreen'
+        screen: "WelcomeScreen",
       });
     }
   }, [navigation, mnemonic, getAccount]);

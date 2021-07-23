@@ -3,49 +3,55 @@ import {
   combineReducers,
   applyMiddleware,
   Middleware,
-  AnyAction
+  AnyAction,
 } from "redux";
 import { persistStore, persistReducer, PersistState } from "redux-persist";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import ReduxThunk, { ThunkMiddleware } from "redux-thunk";
 
 import accountsReducer, {
   State as StateAccount,
-  initialState as initialAccountState
+  initialState as initialAccountState,
 } from "./accounts/reducer";
+
+import balancesReducer, {
+  State as StateBalances,
+  initialState as initialBalanceState,
+} from "./balances/reducer";
 
 import transactionsReducer, {
   State as StateTransactions,
-  initialState as initialTransactionsState
+  initialState as initialTransactionsState,
 } from "./transactions/reducer";
 
 import utxosReducer, {
   State as StateUTXOs,
-  initialState as initialUTXOSState
+  initialState as initialUTXOSState,
 } from "./utxos/reducer";
 
 import tokensReducer, {
   State as StateTokens,
-  initialState as initialTokensState
+  initialState as initialTokensState,
 } from "./tokens/reducer";
 
 import pricesReducer, {
   State as StatePrices,
-  initialState as initialPricesState
+  initialState as initialPricesState,
 } from "./prices/reducer";
 
 import settingsReducer, {
   SettingsState as StateSettings,
-  initialState as initialSettingsState
+  initialState as initialSettingsState,
 } from "./settings/reducer";
 
 import networksReducer, {
   State as StateNetworks,
-  initialState as initialNetworksState
+  initialState as initialNetworksState,
 } from "./networks/reducer";
 
 export type FullState = {
   accounts: StateAccount;
+  balances: StateBalances;
   prices: StatePrices;
   tokens: StateTokens;
   transactions: StateTransactions;
@@ -57,6 +63,7 @@ export type FullState = {
 
 const initialState: FullState = {
   accounts: initialAccountState,
+  balances: initialBalanceState,
   prices: initialPricesState,
   tokens: initialTokensState,
   transactions: initialTransactionsState,
@@ -77,18 +84,19 @@ const persistConfig = {
 const accountsPersistConfig = {
   key: "accounts",
   storage: AsyncStorage,
-  blacklist: ["keypairsByAccount"]
+  blacklist: ["keypairsByAccount"],
 };
 
 const pricesPersistConfig = {
   key: "prices",
   storage: AsyncStorage,
-  whitelist: ["currencySelected"]
+  whitelist: ["currencySelected"],
 };
 
 const rootReducer = combineReducers({
   accounts: persistReducer(accountsPersistConfig, accountsReducer),
   prices: persistReducer(pricesPersistConfig, pricesReducer),
+  balances: balancesReducer,
   tokens: tokensReducer,
   transactions: transactionsReducer,
   utxos: utxosReducer,
@@ -112,7 +120,7 @@ const Logger: Middleware = (store) => (next) => (action) => {
 
 const middleware = [
   Logger,
-  ReduxThunk as ThunkMiddleware<FullState, AnyAction>
+  ReduxThunk as ThunkMiddleware<FullState, AnyAction>,
 ];
 
 const getStore = () => {
@@ -127,7 +135,7 @@ const getStore = () => {
   const persistor = persistStore(store);
   return {
     store,
-    persistor
+    persistor,
   };
 };
 

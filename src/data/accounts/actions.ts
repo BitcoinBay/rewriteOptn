@@ -3,16 +3,21 @@ import {
   GET_ACCOUNT_SUCCESS,
   GET_ACCOUNT_FAIL,
   LOGOUT_ACCOUNT,
-  VIEW_SEED
+  VIEW_SEED,
 } from "./constants";
 
 import { Account } from "./reducer";
 
 import { deriveAccount, generateMnemonic } from "../../utils/account-utils";
 
+import { currentNetworkSelector } from "../networks/selectors";
+import { initialState, State } from "../networks/reducer";
+import { FullState } from "../store";
+import { NetworkCode } from "../../utils/network-utils";
+
 const getAccountStart = () => ({
   type: GET_ACCOUNT_START,
-  payload: null
+  payload: null,
 });
 
 const getAccountSuccess = (
@@ -24,16 +29,20 @@ const getAccountSuccess = (
   payload: {
     account,
     accountSlp,
-    isNew
-  }
+    isNew,
+  },
 });
 
 const getAccountFail = () => ({
   type: GET_ACCOUNT_FAIL,
-  payload: null
+  payload: null,
 });
 
-const getAccount = (mnemonic?: string, accountIndex: number = 0) => {
+const getAccount = (
+  mnemonic: string,
+  accountIndex: number = 0,
+  network: NetworkCode
+) => {
   const accountMnemonic = mnemonic ? mnemonic : generateMnemonic();
   const isNew = !mnemonic;
 
@@ -49,14 +58,16 @@ const getAccount = (mnemonic?: string, accountIndex: number = 0) => {
       accountMnemonic,
       accountIndex,
       childIndex,
-      derivationPathBCH
+      derivationPathBCH,
+      network
     )) as Account;
 
     const accountSlp = (await deriveAccount(
       accountMnemonic,
       accountIndex,
       childIndex,
-      derivationPathSLP
+      derivationPathSLP,
+      network
     )) as Account;
 
     //    console.log(account);
@@ -68,7 +79,7 @@ const getAccount = (mnemonic?: string, accountIndex: number = 0) => {
 const logoutAccount = () => {
   return {
     type: LOGOUT_ACCOUNT,
-    payload: null
+    payload: null,
   };
 };
 
@@ -76,8 +87,8 @@ const viewSeed = (address: string) => {
   return {
     type: VIEW_SEED,
     payload: {
-      address
-    }
+      address,
+    },
   };
 };
 
@@ -87,5 +98,5 @@ export {
   getAccountSuccess,
   getAccountFail,
   logoutAccount,
-  viewSeed
+  viewSeed,
 };

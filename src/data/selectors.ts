@@ -14,12 +14,12 @@ export type Balances = {
   };
 };
 
-const balancesSelector = createSelector(utxosByAccountSelector, utxos => {
+const balancesSelector = createSelector(utxosByAccountSelector, (utxos) => {
   const balancesInitial: Balances = {
     satoshisAvailable: new BigNumber(0),
     satoshisLockedInMintingBaton: new BigNumber(0),
     satoshisLockedInTokens: new BigNumber(0),
-    slpTokens: {}
+    slpTokens: {},
   };
   if (!utxos) return balancesInitial;
 
@@ -64,6 +64,4 @@ const balancesSelector = createSelector(utxosByAccountSelector, utxos => {
   return balances;
 });
 
-export {
-  balancesSelector,
-};
+export { balancesSelector };

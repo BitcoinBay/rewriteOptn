@@ -3,7 +3,7 @@ import { AnyAction } from "redux";
 import {
   UPDATE_TOKENS_META_START,
   UPDATE_TOKENS_META_SUCCESS,
-  UPDATE_TOKENS_META_FAIL
+  UPDATE_TOKENS_META_FAIL,
 } from "./constants";
 
 export type TokenData = {
@@ -24,24 +24,24 @@ export type State = {
 export const initialState: State = {
   byId: {},
   allIds: [],
-  updating: false
+  updating: false,
 };
 
 const updateTokens = (state: State, tokens: TokenData[]) => {
   if (!tokens.length) {
     return state;
   }
-  const allIdsNext = tokens.map(val => val.tokenId);
+  const allIdsNext = tokens.map((val) => val.tokenId);
   const byIdNext = tokens.reduce((prev, curr) => {
     return {
       ...prev,
-      [curr.tokenId]: curr
+      [curr.tokenId]: curr,
     };
   }, state.byId);
   return {
     byId: byIdNext,
     allIds: allIdsNext,
-    updating: false
+    updating: false,
   };
 };
 
@@ -50,7 +50,7 @@ const tokensReducer = (state = initialState, action: AnyAction) => {
     case UPDATE_TOKENS_META_START:
       return {
         ...state,
-        updating: true
+        updating: true,
       };
 
     case UPDATE_TOKENS_META_SUCCESS:

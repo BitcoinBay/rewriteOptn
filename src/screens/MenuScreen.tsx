@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import styled from "styled-components";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -12,14 +12,14 @@ import {
   View,
   Image,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
 } from "react-native";
 
 import { getSeedViewedSelector } from "../data/accounts/selectors";
 
 import { currencySymbolMap } from "../utils/currency-utils";
 import { currencySelector } from "../data/prices/selectors";
-import { currentNetworkSelector } from "../data/networks/selectors"
+import { currentNetworkSelector } from "../data/networks/selectors";
 
 import { T, Spacer } from "../atoms";
 import { FullState } from "../data/store";
@@ -34,7 +34,7 @@ const Row = styled(View)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border: solid ${props => props.theme.fg500};
+  border: solid ${(props) => props.theme.fg500};
   border-top-width: 0px;
   border-left-width: 0px;
   border-right-width: 0px;
@@ -46,7 +46,7 @@ const NotificationDot = styled(View)`
   height: 6px;
   width: 6px;
   border-radius: 6px;
-  background-color: ${props => props.theme.accent500};
+  background-color: ${(props) => props.theme.accent500};
   margin-left: 8px;
 `;
 
@@ -64,7 +64,7 @@ const OptionsRow = ({
   label,
   muted,
   pressFn,
-  text
+  text,
 }: {
   hasNotification?: boolean;
   label?: string;
@@ -83,9 +83,8 @@ const OptionsRow = ({
           <T
             type="muted2"
             style={{
-              marginRight: 8
-            }}
-          >
+              marginRight: 8,
+            }}>
             {label}
           </T>
           <T type="muted2">
@@ -115,31 +114,31 @@ const MenuScreen = ({
   navigation,
   seedViewed,
   fiatCurrency,
-  network
+  network,
 }: Props) => {
-  return(
+  return (
     <SafeAreaView>
       <StyledScrollView
         contentContainerStyle={{
-          flexGrow: 1
-        }}
-      >
+          flexGrow: 1,
+        }}>
         <Image
           source={OPTNWelcome1}
           style={{
             width: 350,
             height: 150,
             resizeMode: "contain",
-            alignItems: "center"
+            alignItems: "center",
           }}
         />
         <OptionsRow
           text="View Seed Phrase"
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "ViewSeedScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "ViewSeedScreen",
+              },
             });
           }}
           hasNotification={!seedViewed}
@@ -148,9 +147,10 @@ const MenuScreen = ({
           text="Currency"
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "SelectCurrencyScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "SelectCurrencyScreen",
+              },
             });
           }}
           label={`${currencySymbolMap[fiatCurrency]} ${fiatCurrency}`}
@@ -166,9 +166,10 @@ const MenuScreen = ({
           text="Frequently Asked Questions - FAQ"
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "FAQScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "FAQScreen",
+              },
             });
           }}
         />
@@ -183,9 +184,10 @@ const MenuScreen = ({
           muted
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "TermsOfUseScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "TermsOfUseScreen",
+              },
             });
           }}
         />
@@ -194,9 +196,10 @@ const MenuScreen = ({
           muted
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "PrivacyNoticeScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "PrivacyNoticeScreen",
+              },
             });
           }}
         />
@@ -205,9 +208,10 @@ const MenuScreen = ({
           muted
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "ContactUsScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "ContactUsScreen",
+              },
             });
           }}
         />
@@ -215,9 +219,10 @@ const MenuScreen = ({
           text="Logout"
           pressFn={() => {
             navigation.navigate("MainAppStack", {
-              screen: "Menu", params: {
-                  screen: "LogoutScreen"
-              }
+              screen: "Menu",
+              params: {
+                screen: "LogoutScreen",
+              },
             });
           }}
         />
@@ -231,6 +236,6 @@ const MenuScreen = ({
       </StyledScrollView>
     </SafeAreaView>
   );
-}
+};
 
 export default connector(MenuScreen);
