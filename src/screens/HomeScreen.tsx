@@ -1,3 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-shadow */
+/* eslint-disable quotes */
 import React, { useEffect, useMemo, useState } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import styled from "styled-components";
@@ -9,10 +12,10 @@ import {
   SectionList,
   View,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
-import { v5 as uuidv5 } from 'uuid';
+import { StackNavigationProp } from "@react-navigation/stack";
+import { v5 as uuidv5 } from "uuid";
 import BigNumber from "bignumber.js";
 
 import { T, H1, Spacer, Button } from "../atoms";
@@ -24,13 +27,16 @@ import { balancesSelector } from "../data/selectors";
 import {
   getAddressSelector,
   getAddressSlpSelector,
-  getSeedViewedSelector
+  getSeedViewedSelector,
 } from "../data/accounts/selectors";
-import { getBchBalancesSelector, getSlpBalanceSelector } from "../data/balances/selectors";
+import {
+  getBchBalancesSelector,
+  getSlpBalanceSelector,
+} from "../data/balances/selectors";
 import { tokensByIdSelector } from "../data/tokens/selectors";
 import { spotPricesSelector, currencySelector } from "../data/prices/selectors";
 import { tokenFavoritesSelector } from "../data/settings/selectors";
-import { currentNetworkSelector } from "../data/networks/selectors"
+import { currentNetworkSelector } from "../data/networks/selectors";
 
 import { updateBalances } from "../data/balances/actions";
 import { updateUtxos } from "../data/utxos/actions";
@@ -40,7 +46,7 @@ import { updateSpotPrice } from "../data/prices/actions";
 import {
   formatAmount,
   formatFiatAmount,
-  computeFiatAmount
+  computeFiatAmount,
 } from "../utils/balance-utils";
 
 import { currencySymbolMap } from "../utils/currency-utils";
@@ -55,11 +61,13 @@ const SECOND = 1000;
 const HASH_UUID_NAMESPACE = "9fcd327c-41df-412f-ba45-3cc90970e680";
 
 const BackupNotice = styled(TouchableOpacity)`
-  border-color: ${props => props.theme.accent500};
+  border-color: ${(props: { theme: { accent500: any } }) =>
+    props.theme.accent500};
   border-width: ${StyleSheet.hairlineWidth}px;
   border-radius: 4px;
   padding: 8px;
-  background-color: ${props => props.theme.accent900};
+  background-color: ${(props: { theme: { accent900: any } }) =>
+    props.theme.accent900};
   margin: 8px 16px;
 `;
 
@@ -98,8 +106,8 @@ const mapStateToProps = (state: FullState) => {
     fiatCurrency,
     tokensById,
     tokenFavorites,
-    currentNetwork
-  }
+    currentNetwork,
+  };
 };
 
 const mapDispatchToProps = {
@@ -142,10 +150,12 @@ const HomeScreen = ({
   currentNetwork,
 }: Props) => {
   useEffect(() => {
-    if (!address) return;
-    updateUtxos(address, address);
+    if (!address) {
+      return;
+    }
+    // updateUtxos(address, address);
     const utxoInterval = setInterval(
-      () => updateUtxos(address, addressSlp), 
+      () => updateUtxos(address, addressSlp),
       // Fullstack.cash rate limit set defaults at 3 requests per minute
       60 * SECOND
     );
@@ -155,7 +165,9 @@ const HomeScreen = ({
   }, [address, addressSlp, updateUtxos]);
 
   useEffect(() => {
-    if (!address || !addressSlp) return;
+    if (!address || !addressSlp) {
+      return;
+    }
     updateBalances(address, addressSlp);
     console.log(balances);
   }, [address, addressSlp, balances, updateBalances]);
@@ -171,7 +183,7 @@ const HomeScreen = ({
 
   useEffect(() => {
     // Update the BCH price on an interval
-    updateSpotPrice(fiatCurrency);
+    // updateSpotPrice(fiatCurrency);
     const spotPriceInterval = setInterval(
       () => updateSpotPrice(fiatCurrency),
       60 * SECOND
@@ -179,16 +191,17 @@ const HomeScreen = ({
     return () => clearInterval(spotPriceInterval);
   }, [navigation, fiatCurrency, updateSpotPrice]);
 
-  const BCHFiatDisplay = useMemo(() => {
-    const BCHFiatAmount = computeFiatAmount(
-      balances,
-      spotPrices,
-      fiatCurrency,
-      "bch"
-    );
+  // const BCHFiatDisplay = useMemo(() => {
+  //   if (!balances[address]) return;
+  //   const BCHFiatAmount = computeFiatAmount(
+  //     balances[address].satoshisAvailable,
+  //     spotPrices,
+  //     fiatCurrency,
+  //     "bch"
+  //   );
 
-    return formatFiatAmount(BCHFiatAmount, fiatCurrency, "bch");
-  }, [balances, fiatCurrency, spotPrices]);
+  //   return formatFiatAmount(BCHFiatAmount, fiatCurrency, "bch");
+  // }, [balances, fiatCurrency, spotPrices]);
 
   // const tokenData = useMemo(() => {
   //   const slpTokensDisplay = Object.keys(balances.slpTokens).map<
@@ -246,55 +259,73 @@ const HomeScreen = ({
   //   };
   // }, [tokenData, tokenFavorites]);
 
-  const walletSections: WalletSection[] = useMemo(() => {
-    const sectionBCH: WalletSection = {
-      title: "Bitcoin Cash Wallet",
-      data: [
-        {
-          symbol: "BCH",
-          name: "Bitcoin Cash",
-          // amount: "1337.42069",
-          amount: formatAmount(balances, 8),
-          valueDisplay: BCHFiatDisplay
-        }
-      ]
-    };
+  // const walletSections: WalletSection[] = useMemo(() => {
+  //   if (!balances[address]) {
+  //     const emptySectionBCH: WalletSection = {
+  //       title: "",
+  //       data: [
+  //         {
+  //           symbol: "",
+  //           name: "",
+  //           amount: formatAmount(0, 8),
+  //           // valueDisplay: BCHFiatDisplay
+  //           valueDisplay: new BigNumber(0)
+  //         }
+  //       ]
+  //     }
+  //     return [
+  //       emptySectionBCH
+  //     ].filter(
+  //       Boolean
+  //     ) as WalletSection[];
+  //   }
 
-    return [
-      sectionBCH, 
-      // favoriteTokensSection, 
-      // tokensSection
-    ].filter(
-      Boolean
-    ) as WalletSection[];
-  }, [
-    BCHFiatDisplay,
-    balances,
-    // favoriteTokensSection,
-    // tokensSection
-  ]);
+  //   const sectionBCH: WalletSection = {
+  //     title: "Bitcoin Cash Wallet",
+  //     data: [
+  //       {
+  //         symbol: "BCH",
+  //         name: "Bitcoin Cash",
+  //         // amount: "1337.42069",
+  //         amount: formatAmount(balances[address].satoshisAvailable, 8),
+  //         // valueDisplay: BCHFiatDisplay
+  //         valueDisplay: new BigNumber(0)
+  //       }
+  //     ]
+  //   };
+
+  //   return [
+  //     sectionBCH,
+  //     // favoriteTokensSection,
+  //     // tokensSection
+  //   ].filter(
+  //     Boolean
+  //   ) as WalletSection[];
+  // }, [
+  //   // BCHFiatDisplay,
+  //   balances,
+  //   // favoriteTokensSection,
+  //   // tokensSection
+  // ]);
 
   return (
     <SafeAreaView>
       <View
         style={{
           height: "100%",
-          alignItems: "stretch"
-        }}
-      >
+          alignItems: "stretch",
+        }}>
         <ScrollView
           style={{
-            flex: 1
+            flex: 1,
           }}
           contentContainerStyle={{
-            flexGrow: 1
-          }}
-        >
+            flexGrow: 1,
+          }}>
           {!seedViewed ? (
             <>
               <BackupNotice
-                onPress={() => navigation.navigate("ViewSeedScreen")}
-              >
+                onPress={() => navigation.navigate("ViewSeedScreen")}>
                 <T center size="small" type="accent">
                   Please backup your Seed Phrase
                 </T>
@@ -310,27 +341,22 @@ const HomeScreen = ({
               width: 350,
               height: 150,
               resizeMode: "contain",
-              alignItems: "center"
+              alignItems: "center",
             }}
           />
-          <View 
+          <View
             style={{
-              position: "relative"
-            }}
-          >
-            <T center>
-              Current Price
-            </T>
+              position: "relative",
+            }}>
+            <T center>Current Price</T>
             <H1 center>
               {/* {`${currencySymbolMap[fiatCurrency]} ${spotPrices["bch"][fiatCurrency]["rate"]} ${fiatCurrency} / BCH`} */}
             </H1>
             <Spacer />
-            <T center>
-            Network: {`${currentNetwork}`}
-            </T>
+            <T center>Network: {`${currentNetwork}`}</T>
           </View>
         </ScrollView>
-        <SectionList 
+        {/* <SectionList
               sections={walletSections}
               renderSectionHeader={({ section }) => (
                 <CoinRowHeader>{section.title}</CoinRowHeader>
@@ -357,10 +383,10 @@ const HomeScreen = ({
                 )
               }
               keyExtractor={(item, index) => `${index}`}
-            />
+            /> */}
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default connector(HomeScreen);

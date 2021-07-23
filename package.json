@@ -6,6 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
+    "prettier": "prettier --write .",
     "postinstall": "rn-nodeify --install crypto,process,stream,events,http,https,vm,url,fs,path --hack",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -69,14 +70,26 @@
     "@types/jest": "^25.2.3",
     "@types/react-native": "^0.63.2",
     "@types/react-test-renderer": "^16.9.2",
+    "@types/styled-components": "^5.1.11",
+    "@types/uuid": "^8.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "babel-jest": "^25.1.0",
-    "eslint": "^6.5.1",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
     "jest": "^25.1.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.2.1",
+    "prettier-eslint": "10.1.0",
     "react-test-renderer": "16.13.1",
     "rn-nodeify": "^10.2.0",
-    "typescript": "^3.8.3"
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
   },
   "resolutions": {
     "@types/react": "^16"
@@ -91,7 +104,9 @@
       "json",
       "node"
     ],
-    "setupFiles": ["./__mocks__/@react-native-async-storage/async-storage.js"],
+    "setupFiles": [
+      "./__mocks__/@react-native-async-storage/async-storage.js"
+    ],
     "testTimeout": 12000000
   },
   "react-native": {

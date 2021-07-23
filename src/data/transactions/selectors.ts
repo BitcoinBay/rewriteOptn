@@ -7,7 +7,7 @@ const transactionsSelector = (state: FullState) => state.transactions;
 
 const isUpdatingTransactionsSelector = createSelector(
   transactionsSelector,
-  transactions => {
+  (transactions) => {
     return transactions.updating;
   }
 );

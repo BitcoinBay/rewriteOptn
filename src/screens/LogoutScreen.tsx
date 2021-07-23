@@ -1,12 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { View,
-  ScrollView, 
-  SafeAreaView 
-} from "react-native";
+import { View, ScrollView, SafeAreaView } from "react-native";
 import { connect, ConnectedProps } from "react-redux";
-import { StackNavigationProp } from '@react-navigation/stack';
-import styled from "styled-components"; 
+import { StackNavigationProp } from "@react-navigation/stack";
+import styled from "styled-components";
 import _ from "lodash";
 
 import { Button, T, Spacer, SwipeButton } from "../atoms";
@@ -21,8 +18,7 @@ const Screen = styled(SafeAreaView)`
 
 type PropsFromParent = StackNavigationProp & {};
 
-const mapStateToProps = (state: FullState) => ({
-});
+const mapStateToProps = (state: FullState) => ({});
 
 const mapDispatchToProps = {
   logoutAccount,
@@ -33,17 +29,13 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromParent & PropsFromRedux;
 
-const LogoutScreen = ({
-  navigation, 
-  logoutAccount
-}: Props) => {
+const LogoutScreen = ({ navigation, logoutAccount }: Props) => {
   return (
     <Screen>
-      <ScrollView 
+      <ScrollView
         contentContainerStyle={{
-          flexGrow: 1
-        }}
-      >
+          flexGrow: 1,
+        }}>
         <Spacer />
         <T center>
           You are about to logout of your wallet. You will need to use this
@@ -73,9 +65,13 @@ const LogoutScreen = ({
           <SwipeButton
             swipeFn={() => {
               logoutAccount();
-              _.delay(() => navigation.navigate("AuthStack", {
-                screen: 'WelcomeScreen'
-              }), 25);
+              _.delay(
+                () =>
+                  navigation.navigate("AuthStack", {
+                    screen: "WelcomeScreen",
+                  }),
+                25
+              );
             }}
             labelAction="To Logout"
             labelRelease="Release to logout"
@@ -85,6 +81,6 @@ const LogoutScreen = ({
       </ScrollView>
     </Screen>
   );
-}
+};
 
 export default connector(LogoutScreen);

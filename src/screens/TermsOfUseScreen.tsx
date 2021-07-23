@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { SafeAreaView, ScrollView, Linking, StyleSheet } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import Markdown from "react-native-markdown-package";
 
@@ -15,7 +15,7 @@ const ScreenView = styled(SafeAreaView)`
 `;
 
 const MarkdownScrollview = styled(ScrollView)`
-  border-color: ${props => props.theme.fg200};
+  border-color: ${(props) => props.theme.fg200};
   border-bottom-width: ${StyleSheet.hairlineWidth}px;
   border-top-width: ${StyleSheet.hairlineWidth}px;
 `;
@@ -171,10 +171,7 @@ const TermsOfUseScreen = ({ navigation }: Props) => {
         <Spacer />
       </ScrollView>
       <Spacer small />
-      <Button
-        onPress={() => navigation.goBack()}
-        text="Accept"
-      />
+      <Button onPress={() => navigation.goBack()} text="Accept" />
       <Spacer small />
     </ScreenView>
   );
@@ -194,9 +191,7 @@ const ViewTermsOfUseScreen = ({ navigation }: Props) => {
         <Spacer />
       </ScrollView>
       <Spacer small />
-      <Button 
-        onPress={() => navigation.goBack()} 
-        text="Accept" />
+      <Button onPress={() => navigation.goBack()} text="Accept" />
       <Spacer small />
     </ScreenView>
   );

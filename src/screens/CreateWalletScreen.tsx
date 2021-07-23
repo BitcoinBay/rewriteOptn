@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { SafeAreaView, ActivityIndicator, Image } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 import { connect, ConnectedProps } from "react-redux";
 
 import { Spacer, T } from "../atoms";
@@ -9,7 +9,7 @@ import OPTNWelcome3 from "../assets/images/OPTNWelcome3.png";
 
 import {
   hasMnemonicSelector,
-  activeAccountIdSelector
+  activeAccountIdSelector,
 } from "../data/accounts/selectors";
 import { getAccount } from "../data/accounts/actions";
 import { FullState } from "../data/store";
@@ -27,7 +27,7 @@ type PropsFromParent = StackNavigationProp & {};
 const mapStateToProps = (state: FullState) => ({
   accountAddress: activeAccountIdSelector(state),
   isCreated: hasMnemonicSelector(state),
-  networkActive: currentNetworkSelector(state)
+  networkActive: currentNetworkSelector(state),
 });
 
 const mapDispatchToProps = {
@@ -48,10 +48,11 @@ const CreateWalletScreen = ({
   useEffect(() => {
     if (isCreated) {
       navigation.navigate("MainAppStack", {
-        screen: 'Home', params: {
-            screen: 'HomeScreen'
-        }
-      })
+        screen: "Home",
+        params: {
+          screen: "HomeScreen",
+        },
+      });
     } else {
       getAccount(null, 0, networkActive);
     }
@@ -63,7 +64,7 @@ const CreateWalletScreen = ({
         source={OPTNWelcome3}
         style={{
           width: 150,
-          height: 150
+          height: 150,
         }}
       />
       <ActivityIndicator />

@@ -26,14 +26,14 @@ const Row = styled(View)<RowProps>`
   padding: 16px;
   margin-bottom: 8px;
 
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.type
       ? {
           send: props.theme.accent900,
           receive: props.theme.primary900,
           interwallet: props.theme.fg800,
           payout: props.theme.payout900,
-          unrecognized: props.theme.fg800
+          unrecognized: props.theme.fg800,
         }[props.type]
       : props.theme.fg800};
 `;
@@ -60,8 +60,8 @@ const EmptyIcon = styled(View)`
   height: 36px;
   border-radius: 18px;
   overflow: hidden;
-  background-color: ${props => props.theme.fg700};
-  border: 2px solid ${props => props.theme.primary500};
+  background-color: ${(props) => props.theme.fg700};
+  border: 2px solid ${(props) => props.theme.primary500};
 `;
 
 const IconImage = styled(Image)`
@@ -110,7 +110,7 @@ const TransactionRow = ({
   fromAddress,
   symbol,
   tokenId,
-  amount
+  amount,
 }: Props) => {
   // TODO - Special image for interwallet, payout, and receive from many
   const transactionAddress = {
@@ -118,7 +118,7 @@ const TransactionRow = ({
     interwallet: null,
     payout: fromAddress || fromAddresses[0],
     receive: fromAddress || fromAddresses[0],
-    unrecognized: null
+    unrecognized: null,
   }[type];
 
   let formattedTransactionAddress = null;
@@ -145,21 +145,21 @@ const TransactionRow = ({
       const newBlockie = makeBlockie(transactionAddress || "unknown");
       blockieCache = {
         ...blockieCache,
-        [transactionAddress]: newBlockie
+        [transactionAddress]: newBlockie,
       };
       blockie = newBlockie;
     }
   }
 
   const imageSource = {
-    uri: blockie
+    uri: blockie,
   };
   const typeFormatted = {
     send: "Sent",
     interwallet: "Sent to self",
     receive: "Received",
     payout: "Payout",
-    unrecognized: "Unknown Type"
+    unrecognized: "Unknown Type",
   }[type];
 
   return (
@@ -176,8 +176,7 @@ const TransactionRow = ({
         <TouchableOpacity
           onPress={() =>
             Linking.openURL(`https://explorer.bitcoin.com/bch/tx/${txId}`)
-          }
-        >
+          }>
           <T size="small" type="muted2">
             Explorer <Feather name="external-link" />
           </T>

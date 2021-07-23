@@ -3,7 +3,7 @@ import { AnyAction } from "redux";
 import {
   GET_TRANSACTIONS_START,
   GET_TRANSACTIONS_SUCCESS,
-  GET_TRANSACTIONS_FAIL
+  GET_TRANSACTIONS_FAIL,
 } from "./constants";
 
 // Transaction shape in redux store
@@ -45,7 +45,7 @@ export const initialState: State = {
   allIds: [],
   byAccount: {},
   updating: false,
-  lastUpdate: +new Date()
+  lastUpdate: +new Date(),
 };
 
 const transactions = (
@@ -56,7 +56,7 @@ const transactions = (
     case GET_TRANSACTIONS_START:
       return {
         ...state,
-        updating: true
+        updating: true,
       };
 
     // case GET_TRANSACTIONS_SUCCESS:

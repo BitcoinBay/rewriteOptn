@@ -1,9 +1,9 @@
-import { 
-  Contract, 
-  SignatureTemplate, 
-  ElectrumNetworkProvider 
-} from 'cashscript';
-import { compileString } from 'cashc';
+import {
+  Contract,
+  SignatureTemplate,
+  ElectrumNetworkProvider,
+} from "cashscript";
+import { compileString } from "cashc";
 import bchaddr from "bchaddrjs";
 
 import P2pkhArtifact from "./cashscript/P2PKH.json";
@@ -57,14 +57,9 @@ const compileContract = (type: string, params: any) => {
   if (!artifactSource) return null;
 
   const artifact = compileString(artifactSource);
-  const provider = new ElectrumNetworkProvider('testnet');
+  const provider = new ElectrumNetworkProvider("testnet");
   const contract = new Contract(artifact, [...params], provider);
   return contract;
-}
+};
 
-export {
-  AbiInput,
-  AbiFunction,
-  Artifact,
-  compileContract
-}
+export { AbiInput, AbiFunction, Artifact, compileContract };

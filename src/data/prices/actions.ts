@@ -7,7 +7,7 @@ import {
   UPDATE_BCH_SPOT_PRICE_START,
   UPDATE_BCH_SPOT_PRICE_SUCCESS,
   UPDATE_BCH_SPOT_PRICE_FAIL,
-  SET_FIAT_CURRENCY
+  SET_FIAT_CURRENCY,
 } from "./constants";
 import { FullState } from "../store";
 import { bchjs } from "../../utils/bch-js-utils";
@@ -15,12 +15,12 @@ import { currencyOptions } from "../../utils/currency-utils";
 
 const setFiatCurrency = (currencyCode: string) => ({
   type: SET_FIAT_CURRENCY,
-  payload: currencyCode
+  payload: currencyCode,
 });
 
 const updateSpotPriceStart = () => ({
   type: UPDATE_BCH_SPOT_PRICE_START,
-  payload: null
+  payload: null,
 });
 
 const updateSpotPriceSuccess = (
@@ -32,8 +32,8 @@ const updateSpotPriceSuccess = (
   payload: {
     currency: currencyCode,
     rate,
-    timestamp
-  }
+    timestamp,
+  },
 });
 
 const updateSpotPriceFail = (
@@ -43,8 +43,8 @@ const updateSpotPriceFail = (
   type: UPDATE_BCH_SPOT_PRICE_FAIL,
   payload: {
     currency: currencyCode,
-    timestamp
-  }
+    timestamp,
+  },
 });
 
 // For now assume BCH
@@ -58,7 +58,7 @@ const updateSpotPrice = (currencyCode: CurrencyCode) => {
       const now = +new Date();
       const rates = await bchjs.Price.rates();
       let whitelistRates = {};
-      currencyOptions.forEach(i => {
+      currencyOptions.forEach((i) => {
         const roundingPrice = parseInt(rates[i]).toFixed(currencyDecimalMap[i]);
         whitelistRates[i] = roundingPrice;
       });
@@ -78,5 +78,5 @@ export {
   updateSpotPriceSuccess,
   updateSpotPriceStart,
   updateSpotPriceFail,
-  setFiatCurrency
+  setFiatCurrency,
 };

@@ -2,7 +2,7 @@ import {
   GET_ARTIFACT_START,
   GET_ARTIFACT_SUCCESS,
   GET_ARTIFACT_FAIL,
-  CLEAR_ARTIFACTS
+  CLEAR_ARTIFACTS,
 } from "./constants";
 
 import { Artifact } from "../../utils/cashscript-utils";
@@ -23,7 +23,7 @@ export type State = {
 export const initialState: State = {
   byId: {},
   allIds: [],
-  activeId: null
+  activeId: null,
 };
 
 const addArtifact = (state: State, payload: Artifact) => {
@@ -39,8 +39,8 @@ const addArtifact = (state: State, payload: Artifact) => {
       ...state,
       byId: {
         ...state.byId,
-        [addr]: artifact
-      }
+        [addr]: artifact,
+      },
     };
   }
 
@@ -48,10 +48,10 @@ const addArtifact = (state: State, payload: Artifact) => {
     ...state,
     byId: {
       ...state.byId,
-      [addr]: artifact
+      [addr]: artifact,
     },
     allIds: [...state.allIds, addr],
-    activeId: addr
+    activeId: addr,
   };
 };
 

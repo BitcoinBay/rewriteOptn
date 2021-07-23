@@ -3,9 +3,7 @@ import { Network } from "./reducer";
 
 const toggleNetwork = (network: Network) => ({
   type: SET_NETWORK,
-  payload: network
+  payload: network,
 });
 
-export {
-  toggleNetwork
-};
+export { toggleNetwork };

@@ -15,7 +15,7 @@ const deriveAccount = async (
   network: NetworkCode
 ) => {
   if (!mnemonic) {
-    throw new Error("Mnemonic required to derive account"); 
+    throw new Error("Mnemonic required to derive account");
   }
 
   console.log("Current Network is ", network);
@@ -35,7 +35,7 @@ const deriveAccount = async (
     mnemonic,
     keypair,
     address,
-    accountIndex
+    accountIndex,
   };
 };
 

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { SafeAreaView, View, Image } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 import styled from "styled-components";
 
 import { T, H1, H2, Spacer, Button } from "../atoms";
@@ -15,7 +15,7 @@ type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => {
   return {
-    networkActive: currentNetworkSelector(state)
+    networkActive: currentNetworkSelector(state),
   };
 };
 
@@ -26,7 +26,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromParent & PropsFromRedux;
 
-
 const StyledWrapper = styled(SafeAreaView)`
   display: flex;
   flex: 1;
@@ -36,10 +35,7 @@ const StyledWrapper = styled(SafeAreaView)`
 
 //type Props = StackNavigationProp & {};
 
-const WelcomeScreen = ({
-   navigation,
-   networkActive, 
-  }: Props) => {
+const WelcomeScreen = ({ navigation, networkActive }: Props) => {
   return (
     <StyledWrapper>
       <Spacer />
@@ -49,20 +45,18 @@ const WelcomeScreen = ({
         source={OPTNWelcome3}
         style={{
           width: 150,
-          height: 150
+          height: 150,
         }}
       />
       <Spacer />
       <View
         style={{
-          flex: 1
-        }}
-      >
+          flex: 1,
+        }}>
         <H2
           style={{
-            textAlign: "center"
-          }}
-        >
+            textAlign: "center",
+          }}>
           A Fork of Badger Mobile Wallet
         </H2>
         <Spacer small />
@@ -73,27 +67,28 @@ const WelcomeScreen = ({
           text="Select Network"
         />
         <Spacer />
-            <T center>
-            Current Network: {`${networkActive} `}
-            </T>
+        <T center>Current Network: {`${networkActive} `}</T>
       </View>
 
       <View
         style={{
-          flex: 1
-        }}
-      >
+          flex: 1,
+        }}>
         <Button
-          onPress={() => navigation.navigate("AuthStack", {
-            screen: "CreateWalletScreen"
-          })}
+          onPress={() =>
+            navigation.navigate("AuthStack", {
+              screen: "CreateWalletScreen",
+            })
+          }
           text="New Wallet"
         />
         <Spacer small />
         <Button
-          onPress={() => navigation.navigate("AuthStack", {
-            screen: "RestoreWalletScreen"
-          })}
+          onPress={() =>
+            navigation.navigate("AuthStack", {
+              screen: "RestoreWalletScreen",
+            })
+          }
           text="Restore Wallet"
         />
       </View>

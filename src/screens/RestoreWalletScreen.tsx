@@ -8,9 +8,9 @@ import {
   ScrollView,
   TextInput,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 
 import { H1, Button, T, Spacer } from "../atoms";
 import { getAccount } from "../data/accounts/actions";
@@ -26,12 +26,12 @@ const Screen = styled(ScrollView)`
 `;
 
 const StyledTextInput = styled(TextInput)`
-  border: 1px ${props => props.theme.primary500};
+  border: 1px ${(props) => props.theme.primary500};
   padding: 15px 5px;
 `;
 
 const ErrorContainer = styled(View)`
-  border-color: ${props => props.theme.danger500};
+  border-color: ${(props) => props.theme.danger500};
   border-width: ${StyleSheet.hairlineWidth}px;
   border-radius: 4px;
   padding: 8px;
@@ -54,11 +54,11 @@ type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => ({
   isCreated: hasMnemonicSelector(state),
-  networkActive: currentNetworkSelector(state)
+  networkActive: currentNetworkSelector(state),
 });
 
 const mapDispatchToProps = {
-  getAccount
+  getAccount,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -70,7 +70,7 @@ const RestoreWalletScreen = ({
   navigation,
   getAccount,
   isCreated,
-  networkActive
+  networkActive,
 }: Props) => {
   const [mnemonic, setMnemonic] = useState("");
   const [inputError, setInputError] = useState<string | null>(null);
@@ -79,9 +79,10 @@ const RestoreWalletScreen = ({
   useEffect(() => {
     if (isCreated) {
       navigation.navigate("MainAppStack", {
-        screen: 'Home', params: {
-            screen: 'HomeScreen'
-        }
+        screen: "Home",
+        params: {
+          screen: "HomeScreen",
+        },
       });
     }
   }, [isCreated]);
@@ -91,9 +92,8 @@ const RestoreWalletScreen = ({
       <Screen
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
-          flexGrow: 1
-        }}
-      >
+          flexGrow: 1,
+        }}>
         <Spacer />
         <H1 center>Restore Wallet</H1>
         <Spacer />
@@ -109,7 +109,7 @@ const RestoreWalletScreen = ({
           autoCorrect={false}
           placeholder="Enter Backup Phrase / Mnemonic"
           value={mnemonic}
-          onChangeText={text => {
+          onChangeText={(text) => {
             const sanitized = formatMnemonic(text);
             setMnemonic(sanitized);
             setInputError(null);
@@ -177,6 +177,6 @@ const RestoreWalletScreen = ({
       </Screen>
     </SafeAreaView>
   );
-}
+};
 
 export default connector(RestoreWalletScreen);

@@ -35,14 +35,14 @@ const activeAccountSelector = createSelector(
   }
 );
 
-const hasMnemonicSelector = createSelector(activeAccountSelector, account => {
+const hasMnemonicSelector = createSelector(activeAccountSelector, (account) => {
   if (account && account.mnemonic) {
     return true;
   }
   return false;
 });
 
-const getMnemonicSelector = createSelector(activeAccountSelector, account => {
+const getMnemonicSelector = createSelector(activeAccountSelector, (account) => {
   return account ? account.mnemonic : "";
 });
 
@@ -54,17 +54,23 @@ const getKeypairSelector = createSelector(
   }
 );
 
-const getAddressSelector = createSelector(activeAccountSelector, account => {
+const getAddressSelector = createSelector(activeAccountSelector, (account) => {
   return account ? account.address : "";
 });
 
-const getAddressSlpSelector = createSelector(activeAccountSelector, account => {
-  return account ? account.addressSlp : "";
-});
+const getAddressSlpSelector = createSelector(
+  activeAccountSelector,
+  (account) => {
+    return account ? account.addressSlp : "";
+  }
+);
 
-const getSeedViewedSelector = createSelector(activeAccountSelector, account => {
-  return account && account.seedViewed;
-});
+const getSeedViewedSelector = createSelector(
+  activeAccountSelector,
+  (account) => {
+    return account && account.seedViewed;
+  }
+);
 
 export {
   activeAccountIdSelector,
@@ -76,5 +82,5 @@ export {
   getKeypairSelector,
   getMnemonicSelector,
   hasMnemonicSelector,
-  getSeedViewedSelector
+  getSeedViewedSelector,
 };

@@ -31,7 +31,7 @@ const tokenIdImageMap: { [tokenId: string]: any } = {
   "29d353a3d19cdd7324f1c14b3fe289293976842869fed1bea3f9510558f6f006": LEADTokenImage,
   f66c6d0ac6b8c5c4ed469234ec9734f6d3499b0351b22349f40e617d22254fec: ZBCHTokenImage,
   "7f8889682d57369ed0e32336f8b7e0ffec625a35cca183f4e81fde4e71a538a1": HonkHonkTokenImage,
-  eebaa04d0e715b7bd21901cb60e10d7f71d219626daf24c57ce6ea9584333149: MiamiTokenImage
+  eebaa04d0e715b7bd21901cb60e10d7f71d219626daf24c57ce6ea9584333149: MiamiTokenImage,
 };
 
 let blockieCache: { [tokenId: string]: any } = {};
@@ -51,13 +51,13 @@ const getTokenImage = (tokenId?: string | null) => {
     const newBlockie = makeBlockie(tokenId);
     blockieCache = {
       ...blockieCache,
-      [tokenId]: newBlockie
+      [tokenId]: newBlockie,
     };
     blockie = newBlockie;
   }
 
   const imageSource = {
-    uri: blockie
+    uri: blockie,
   };
 
   return imageSource;

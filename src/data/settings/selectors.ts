@@ -3,7 +3,7 @@ import { FullState } from "../store";
 
 const settingsSelector = (state: FullState) => state.settings;
 
-const tokenFavoritesSelector = createSelector(settingsSelector, settings => {
+const tokenFavoritesSelector = createSelector(settingsSelector, (settings) => {
   return settings.tokenFavorites;
 });
 

@@ -1,11 +1,17 @@
 import utxosReducer, { initialState, UTXO } from "./reducer";
-import { refreshUtxos, updateUtxoStart, updateUtxoFail, updateUtxoSuccess, updateUtxos } from "./actions";
+import {
+  refreshUtxos,
+  updateUtxoStart,
+  updateUtxoFail,
+  updateUtxoSuccess,
+  updateUtxos,
+} from "./actions";
 
 describe("utxos::reducer", () => {
   it("should return the initial state", async () => {
     const stateBefore = { ...initialState };
     const utxo = ({
-      _id: "someUtxoHash"
+      _id: "someUtxoHash",
     } as unknown) as UTXO;
 
     const address = "bitcoincash:qqakphm6jqeteh902n59h2jct706n4srpuzp95a5qh";
@@ -14,7 +20,7 @@ describe("utxos::reducer", () => {
     const stateAfter = await utxosReducer(
       stateBefore,
       updateUtxos(address, addressSlp)
-    )
+    );
 
     // console.log(stateAfter);
     expect(1).toEqual(1);

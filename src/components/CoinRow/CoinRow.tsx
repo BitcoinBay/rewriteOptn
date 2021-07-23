@@ -20,7 +20,7 @@ interface Props {
 const Outer = styled(TouchableOpacity)<{ onPress(): void }>`
   padding: 16px 16px;
   flex-direction: row;
-  border-bottom-color: ${props => props.theme.fg700};
+  border-bottom-color: ${(props) => props.theme.fg700};
   border-bottom-width: 1px;
 `;
 
@@ -49,17 +49,17 @@ const CoinRow = ({
   amount,
   tokenId,
   valueDisplay,
-  onPress
+  onPress,
 }: Props) => {
   const imageSource = getTokenImage(tokenId);
 
   let [amountWhole, amountDecimal] = (amount && amount.split(".")) || [
     null,
-    null
+    null,
   ];
 
   amountDecimal =
-    amountDecimal && [...amountDecimal].every(v => v === "0")
+    amountDecimal && [...amountDecimal].every((v) => v === "0")
       ? null
       : amountDecimal;
 

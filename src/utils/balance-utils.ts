@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 import {
   currencyDecimalMap,
   currencySymbolMap,
-  CurrencyCode
+  CurrencyCode,
 } from "./currency-utils";
 
 import { bchjs } from "./bch-js-utils";
@@ -15,16 +15,16 @@ const getBchBalance = async (address: string[]) => {
   } catch (e) {
     throw e;
   }
-}
+};
 
 const getSlpBalance = async (addressSlp: string[]) => {
   try {
-    const balanceResult = await bchjs.SLP.Utils.balancesForAddress(addressSlp)
+    const balanceResult = await bchjs.SLP.Utils.balancesForAddress(addressSlp);
     return balanceResult;
   } catch (e) {
     throw e;
   }
-}
+};
 
 const removeTrailingChars = (word: string, target: string): string => {
   if (word.slice(-1) === target) {
@@ -48,7 +48,7 @@ const formatAmount = (
   }
 
   let adjustDecimals = amount.shiftedBy(-1 * decimals).toFormat(decimals);
-  
+
   if (trimEnd) {
     adjustDecimals = removeTrailingChars(adjustDecimals, "0");
 
@@ -58,7 +58,7 @@ const formatAmount = (
   }
 
   return adjustDecimals;
-}
+};
 
 const computeFiatAmount = (
   coinAmount: BigNumber,
@@ -142,5 +142,5 @@ export {
   computeFiatAmount,
   formatAmount,
   formatAmountInput,
-  formatFiatAmount
+  formatFiatAmount,
 };

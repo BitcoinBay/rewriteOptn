@@ -8,15 +8,15 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  View
+  View,
 } from "react-native";
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackNavigationProp } from "@react-navigation/stack";
 import styled, { css } from "styled-components";
-import QRCode from 'react-native-qrcode-svg';
+import QRCode from "react-native-qrcode-svg";
 
 import {
   getAddressSelector,
-  getAddressSlpSelector
+  getAddressSlpSelector,
 } from "../data/accounts/selectors";
 import { addressToSlp } from "../utils/account-utils";
 
@@ -38,8 +38,8 @@ const ToggleBase = css<{ isActive: boolean }>`
   justify-content: center;
   align-items: center;
   border-width: ${StyleSheet.hairlineWidth}px;
-  border-color: ${props => props.theme.primary500};
-  ${props =>
+  border-color: ${(props) => props.theme.primary500};
+  ${(props) =>
     props.isActive &&
     css`
       background-color: ${props.theme.primary500};
@@ -91,11 +91,11 @@ const TypeOverlay = styled(View)`
 `;
 
 const TypeImage = styled(Image)<{ size: number }>`
-  height: ${props => props.size * 0.15}px;
-  width: ${props => props.size * 0.15}px;
-  border-radius: ${props => props.size * 0.075}px;
+  height: ${(props) => props.size * 0.15}px;
+  width: ${(props) => props.size * 0.15}px;
+  border-radius: ${(props) => props.size * 0.075}px;
   border-width: 3px;
-  border-color: ${props => props.theme.bg900};
+  border-color: ${(props) => props.theme.bg900};
 `;
 
 const QROverlay = styled(View)`
@@ -117,7 +117,7 @@ type PropsFromParent = StackNavigationProp & {};
 
 const mapStateToProps = (state: FullState) => ({
   address: getAddressSelector(state),
-  addressSlp: getAddressSlpSelector(state)
+  addressSlp: getAddressSlpSelector(state),
 });
 
 const mapDispatchToProps = {};
@@ -127,9 +127,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromParent & PropsFromRedux;
 
-const ReceiveScreen = ({
-  address, addressSlp
-}: Props) => {
+const ReceiveScreen = ({ address, addressSlp }: Props) => {
   const scrollRef = useRef<ScrollView>(null);
   const [showing, setShowing] = useState("BCH");
   const [copyNotify, setCopyNotify] = useState("");
@@ -148,64 +146,61 @@ const ReceiveScreen = ({
     convertAddress();
   }, [addressSlp]);
 
-  return(
+  return (
     <SafeAreaView>
       <ScrollView
         style={{
-          padding: 10
+          padding: 10,
         }}
-        ref={scrollRef}
-      >
+        ref={scrollRef}>
         <Image
           source={OPTNWelcome1}
           style={{
             width: 350,
             height: 150,
             resizeMode: "contain",
-            alignItems: "center"
+            alignItems: "center",
           }}
         />
         <T center>
-          Scan a public key below to receive funds. Tap on a QR code to copy the address.
+          Scan a public key below to receive funds. Tap on a QR code to copy the
+          address.
         </T>
         <Spacer />
         <ToggleRow>
           <ToggleLeft
             isActive={showing === "BCH"}
             onPress={() => {
-              setShowing("BCH")
-              setCopyNotify("")
-            }}
-          >
+              setShowing("BCH");
+              setCopyNotify("");
+            }}>
             <T weight="bold" type={showing === "BCH" ? "inverse" : "primary"}>
-            BCH
+              BCH
             </T>
           </ToggleLeft>
           <ToggleMiddle
             isActive={showing === "SLP"}
             onPress={() => {
-              setShowing("SLP")
-              setCopyNotify("")
-            }}
-          >
+              setShowing("SLP");
+              setCopyNotify("");
+            }}>
             <T weight="bold" type={showing === "SLP" ? "inverse" : "primary"}>
-            SLP
+              SLP
             </T>
           </ToggleMiddle>
           <ToggleRight
             isActive={showing === "P2SH"}
             onPress={() => {
-              setShowing("P2SH")
-              setCopyNotify("")
-            }}
-          >
+              setShowing("P2SH");
+              setCopyNotify("");
+            }}>
             <T weight="bold" type={showing === "P2SH" ? "inverse" : "primary"}>
               P2SH
             </T>
           </ToggleRight>
         </ToggleRow>
         <Spacer />
-        { showing === "BCH" && (
+        {showing === "BCH" && (
           <>
             <H2 center>Bitcoin Cash (BCH)</H2>
             <Spacer tiny />
@@ -215,8 +210,7 @@ const ReceiveScreen = ({
                   Clipboard.setString(address);
                   setCopyNotify("BCH");
                 }
-              }}
-            >
+              }}>
               <T size="xsmall" center>
                 {address ? `${address}-test` : " "}
               </T>
@@ -246,7 +240,7 @@ const ReceiveScreen = ({
             </T>
           </>
         )}
-        { showing === "SLP" && (
+        {showing === "SLP" && (
           <>
             <H2 center>SimpleLedger Protocol (SLP)</H2>
             <Spacer tiny />
@@ -256,8 +250,7 @@ const ReceiveScreen = ({
                   Clipboard.setString(simpleLedgerAddr);
                   setCopyNotify("SLP");
                 }
-              }}
-            >
+              }}>
               <T size="xsmall" center>
                 {simpleLedgerAddr ? simpleLedgerAddr : " "}
               </T>
@@ -287,7 +280,7 @@ const ReceiveScreen = ({
             </T>
           </>
         )}
-        { showing === "P2SH" && (
+        {showing === "P2SH" && (
           <>
             <H2 center>Pay-to-Script-Hash (P2SH)</H2>
             <Spacer tiny />
@@ -297,8 +290,7 @@ const ReceiveScreen = ({
                   Clipboard.setString(address);
                   setCopyNotify("P2SH");
                 }
-              }}
-            >
+              }}>
               <T size="xsmall" center>
                 bitcoincash:
               </T>
@@ -317,6 +309,6 @@ const ReceiveScreen = ({
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 export default connector(ReceiveScreen);
