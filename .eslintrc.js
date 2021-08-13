@@ -9,6 +9,7 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
+    "plugin:import/typescript",
     "plugin:promise/recommended",
     "prettier",
   ],
@@ -27,7 +28,7 @@ module.exports = {
     "prettier/prettier": [
       "error",
       {
-        singleQuote: true,
+        singleQuote: false,
         semi: true,
       },
     ],

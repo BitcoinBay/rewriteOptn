@@ -6,8 +6,7 @@ import {
 } from "electrum-cash";
 
 const ElectrumNetwork = async (network = "mainnet") => {
-  let network = "mainnet";
-  let electrum;
+  let electrum: ElectrumCluster;
 
   if (network === "mainnet") {
     // Initialise a 2-of-3 Electrum Cluster with 6 reliable hardcoded servers

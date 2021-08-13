@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 const BCHJS = require("@psf/bch-js");
 const BigNumber = require("bignumber.js");
 
@@ -44,47 +45,35 @@ async function electrumNetwork(network = "mainnet") {
     );
   }
 
+  await electrum.startup();
   await electrum.ready();
 
   const bchAddr = "bitcoincash:qr4zg7xth86yzq94gl8jvnf5z4wuupzt3g4hl47n9y";
   const slpAddr = "simpleledger:qp4g0q97tq53pasnxk2rs570c6573qvylunsf5gy9e";
   const slpCashAddr = bchjs.SLP.Address.toCashAddress(slpAddr);
 
-  // let txs = await bchjs.Ninsight.transactions(bchAddr);
-  const transactions = await bchjs.Electrumx.transactions([
-    bchAddr,
-    slpCashAddr,
-  ]);
+  try {
+    const getBchHistory = await electrum
+      .request("blockchain.address.get_history", bchAddr)
+      .then(async (res) => {
+        for (const tx of res) {
+          // Request the full transaction hex for the transaction ID.
+          const transactionHex = await electrum.request(
+            "blockchain.transaction.get",
+            tx.tx_hash,
+            true
+          );
 
-  const bchTx = transactions.transactions[0].transactions;
-  const slpTx = transactions.transactions[1].transactions;
-  // console.log(bchTx[0].tx_hash);
-
-  for (const tx of bchTx) {
-    // Request the full transaction hex for the transaction ID.
-    const transactionHex = await electrum.request(
-      "blockchain.transaction.get",
-      tx.tx_hash,
-      true
-    );
-
-    // Print out the transaction hex.
-    console.log(transactionHex);
+          // Print out the transaction hex.
+          console.log(transactionHex);
+          // console.log(transactionHex.vin[0]);
+          // console.log(transactionHex.vout[0]);
+        }
+        return;
+      });
+  } finally {
+    await electrum.shutdown();
   }
-
-  for (const tx of slpTx) {
-    // Request the full transaction hex for the transaction ID.
-    const transactionHex = await electrum.request(
-      "blockchain.transaction.get",
-      tx.tx_hash,
-      true
-    );
-
-    // Print out the transaction hex.
-    console.log(transactionHex);
-  }
-
-  electrum.shutdown();
 }
 electrumNetwork();
 // run();

@@ -6,26 +6,35 @@ import {
   GET_TRANSACTIONS_FAIL,
 } from "./constants";
 
-// Transaction shape in redux store
-export type Transaction = {
-  hash: string;
-  txParams: {
-    from?: string | null;
-    to: string | null;
-    transactionType?: string;
-    fromAddresses: string[];
-    toAddresses: string[];
-    value?: string;
-    valueBch: number;
-    sendTokenData?: {
-      tokenProtocol: "slp";
-      tokenId: string;
-      valueToken: string;
-    };
+export type Vin = {
+  scriptSig: {
+    asm: string;
+    hex: string;
   };
-  time: number;
-  block: number;
-  networkId: "mainnet" | "testnet";
+  sequence: number;
+  txid: string;
+  vout: number;
+};
+
+export type Vout = {
+  n: number;
+  scriptPubKey: {
+    addresses: string[];
+    asm: string;
+    hex: string;
+    reqSigs: number;
+    type: string;
+  };
+  value: number;
+};
+
+export type Transaction = {
+  blockhash: string;
+  blocktime: number;
+  confirmations: number;
+  txid: string;
+  vin: Vin[];
+  vout: Vout[];
 };
 
 export type State = {
